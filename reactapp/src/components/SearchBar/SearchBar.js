@@ -66,6 +66,7 @@ const SearchBarButton = styled.button`
 	right: 0;
 	width: 11%;
 	height: 45px;
+	background-color: white;
 	border: 2px solid black;
 	border-left: 0;
 
