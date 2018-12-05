@@ -5,6 +5,7 @@ import { fetchSearchResults, fetchCategoryResults } from '../../actions';
 import { connect } from 'react-redux';
 import './SearchPage.css';
 import styled from 'styled-components';
+import queryString from 'query-string';
 
 //Import components
 import {
@@ -25,7 +26,10 @@ class SearchPage extends Component {
 		this.state = { input: '' };
 	} // useless constructor
 
-	componentDidMount() {}
+	componentDidMount() {
+		const values = queryString.parse(this.props.location.search);
+		this.props.fetchSearchResults(values.query);
+	}
 
 	handleChange = e => {
 		this.setState({ ...this.state, input: e.target.value });
@@ -36,9 +40,8 @@ class SearchPage extends Component {
 		const searchTerm = this.state.input;
 		console.log(searchTerm);
 		//call featch search results action
-		this.props.fetchSearchResults(searchTerm);
-
 		//push to search page
+		this.props.fetchSearchResults(searchTerm);
 		this.props.history.push(`/search?query=${searchTerm}`);
 	};
 
@@ -70,6 +73,7 @@ class SearchPage extends Component {
 	};
 
 	render() {
+		//console.log(this.props.location.search);
 		return (
 			<SearchPageWrapper>
 				<Header

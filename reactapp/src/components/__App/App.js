@@ -67,7 +67,7 @@ class App extends Component {
 				<Route exact path="/ProjectList" component={ProjectList} />
 				<Route exact path="/CreateEditPage" component={CreateEditPage} />
 				<Route path="/settings/settings" component={UserSettingSettings} />
-				<Route path="/search" component={SearchPage} />
+				<Route path="/search/" component={SearchPage} />
 				<Route path="/project/:id" component={ProjectPage} />
 				<Route path="/newproject" component={NewProject} />
 				<Route path="/about" component={AboutTheTeam} />

@@ -65,8 +65,7 @@ export const fetchSearchResults = query => {
 		console.log('query: ' + query);
 		const url =
 			(process.env.REACT_APP_BACKEND || `http://localhost:5000`) +
-			'/api/search?query=' +
-			query;
+			`/api/search?query=${query}` 
 		dispatch({ type: FETCH_SEARCH_RESULTS });
 		axios
 			.get(url)

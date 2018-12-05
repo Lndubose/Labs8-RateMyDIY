@@ -34,7 +34,18 @@ function getProject(project_id) {
 									.where({ project_id })
 									// strip project_id
 									.select('post_id', 'img_url', 'text')
-									.then(posts => ({ ...projectWithCategories, posts }))
+									.then(
+										posts => {
+											return db('reviews')
+												.where({ project_id })
+												.then(reviews => ({
+													...projectWithCategories,
+													posts,
+													reviews
+												}));
+										}
+										//({ ...projectWithCategories, posts })
+									)
 							);
 						})
 				);

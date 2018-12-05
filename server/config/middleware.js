@@ -50,7 +50,8 @@ const corsConfig = {
 
 // order matters!
 module.exports = server => {
-	server.use(logger('tiny'));
+	//removed tiny logger for debugging
+	//server.use(logger('tiny'));
 	server.use(cors(corsConfig));
 	server.use(helmet());
 	server.use(express.json());
