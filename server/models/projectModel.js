@@ -38,6 +38,16 @@ function getProject(project_id) {
 										posts => {
 											return db('reviews')
 												.where({ project_id })
+												.select(
+													'review_id',
+													'user_id',
+													'rating',
+													'img_url',
+													'text',
+													'likes',
+													'dislikes',
+													'helpfulness'
+												)
 												.then(reviews => ({
 													...projectWithCategories,
 													posts,
