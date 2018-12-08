@@ -28,18 +28,53 @@ const upload = multer({
     // you can check all the available types here:
     // https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#canned-acl 
     acl: 'public-read',
-    key: function (req, file, cb) {
-			cb(null, path.basename( file.originalname, path.extname( file.originalname ) ) + '-' + Date.now() + path.extname( file.originalname ) )
-		},
+    // key: function (req, file, cb) {
+		// 	cb(null, path.basename( file.originalname, path.extname( file.originalname ) ) + '-' + Date.now() + path.extname( file.originalname ) )
+		// },
     // metadata stored on asw s3
     metadata: function (req, file, cb) {
       cb(null, { fieldName: file.fieldname });
     },
+    // key: function (req, file, cb) {
+    //   // What to call file on AWS server
+    //   cb(null, Date.now().toString())
+    // }
     key: function (req, file, cb) {
       // What to call file on AWS server
-      cb(null, Date.now().toString())
+      cb(null, file.originalname);
     }
   })
-})
+});
 
-module.exports = upload;
+const download = (prefix) => {
+  let params = {
+    Bucket: 'ratemydiyresized',
+    Prefix: `${prefix}`
+  }
+
+  s3.listObjectVersions(params, function(err, data) {
+    if (err) {
+      console.log('VERSIONS ERROR', err, err.stack);
+      return err;
+    } else {
+      console.log('VERSIONS DATA', data);
+      const latestVersion = data.Versions[Array.length-1].Key;
+      console.log('LATEST VERSION', latestVersion);
+      delete params.Prefix;
+      params.Key = latestVersion;
+      console.log('PARAMS', params);
+      s3.getSignedUrl('getObject', params, function(err, data) {
+        if (err) {
+          console.log('URL ERROR', err, err.stack);
+        } else {
+          console.log('URL DATA', data);
+        }
+      });
+    }
+  });
+}
+
+module.exports = {
+  upload,
+  download
+};

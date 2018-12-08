@@ -287,7 +287,22 @@ class UserSettings extends Component {
 
 	changeHandler = event => {
 		this.setState({ [event.target.name]: event.target.value });
-	};
+    };
+    
+    singleFileDownloadHandler = (prefix) => {
+        axios
+            .post(
+                (process.env.REACT_APP_BACKEND || 'http://localhost:5000') +
+                    `/api/projects/image-download`,
+                { prefix: prefix }
+            )
+            .then(downloadResponse => {
+                console.log('downloadResponse', downloadResponse);
+            })
+            .catch(downloadError => {
+                console.log('downloadError', downloadError);
+            });
+    }
 
 	render() {
         const { classes } = this.props;
@@ -339,6 +354,8 @@ class UserSettings extends Component {
                     <Twillio />
                 </div>
                 </Modal>
+
+                <button onClick={() => this.singleFileDownloadHandler(`profile/${this.state.selectedFile ? `${this.state.selectedFile.name}` : '' }`)}>Download</button>
                 </SettingsContainer>
 			</SettingsPageContainer>
 		);

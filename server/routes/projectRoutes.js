@@ -9,9 +9,9 @@ const authorize = require('../config/authMiddleware');
 const db = require('../models/projectModel');
 
 // setup-aws-s3.js config for aws-sdk and multer
-const upload = require('../setup-aws-s3');
+const aws = require('../setup-aws-s3');
 
-const singleUpload = upload.single('image');
+const singleUpload = aws.upload.single('image');
 
 // Amazon AWS Upload endpoint
 router.post('/image-upload', function(req, res) {
@@ -34,6 +34,18 @@ router.post('/image-upload', function(req, res) {
 		}
 	});
 });
+
+router.post('/image-download', function(req, res) {
+	const { prefix } = req.body;
+	aws
+		.download(prefix)
+		.then(downloadResponse => {
+			console.log('downloadResponse', downloadResponse);
+		})
+		.catch(downloadError => {
+			console.log('downloadError', downloadError);
+		});
+})
 
 // get project by id
 router.get('/:project_id', function(req, res, next) {
