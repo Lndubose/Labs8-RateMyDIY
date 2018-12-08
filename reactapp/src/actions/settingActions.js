@@ -9,6 +9,9 @@ export const GET_USERNAME_ERROR = 'GET_USERNAME_ERROR';
 export const GETTING_PROFILE_PIC = 'GETTING_PROFILE_PIC';
 export const GOT_PROFILE_PIC = 'GOT_PROFILE_PIC';
 export const GET_PROFILE_PIC_ERROR = 'GET_PROFILE_PIC_ERROR';
+export const GETTING_THUMBNAIL = 'GETTING_THUMBNAIL';
+export const GOT_THUMBNAIL = 'GOT_THUMBNAIL';
+export const GET_THUMBNAIL_ERROR = 'GET_THUMBNAIL_ERROR';
 
 function sleep(ms) {
 	return new Promise(resolve => setTimeout(resolve, ms));
@@ -60,6 +63,29 @@ export const getProfilePic = (img_url) => {
             .catch(error => {
                 console.log('error', error);
                 dispatch({ type: GET_PROFILE_PIC_ERROR, payload: error.message });
+            });
+	}
+}
+
+export const getThumbnail = (prefix) => {
+	return dispatch => {
+		dispatch({ type: GETTING_THUMBNAIL });
+
+		axios
+			.post(
+				(process.env.REACT_APP_BACKEND || `http://localhost:5000`) + `/api/projects/image-download`, { prefix: prefix }
+			)
+
+			.then(({data}) => {
+				console.log('thumbnail data', data);
+				dispatch({ type: GOT_THUMBNAIL, payload: data });
+			})
+
+			.then(() => dispatch(loggedIn()))
+
+            .catch(error => {
+                console.log('thumbnail error', error);
+                dispatch({ type: GET_THUMBNAIL_ERROR, payload: error });
             });
 	}
 }

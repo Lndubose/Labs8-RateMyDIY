@@ -46,7 +46,7 @@ const upload = multer({
   })
 });
 
-const download = (prefix) => {
+const download = (prefix, cb) => {
   let params = {
     Bucket: 'ratemydiyresized',
     Prefix: `${prefix}`
@@ -68,6 +68,7 @@ const download = (prefix) => {
           console.log('URL ERROR', err, err.stack);
         } else {
           console.log('URL DATA', data);
+          cb(data);
         }
       });
     }

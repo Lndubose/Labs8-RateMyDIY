@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import { getUsername, getProfilePic } from '../../actions/settingActions';
+import { getUsername, getProfilePic, getThumbnail } from '../../actions/settingActions';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -288,21 +288,6 @@ class UserSettings extends Component {
 	changeHandler = event => {
 		this.setState({ [event.target.name]: event.target.value });
     };
-    
-    singleFileDownloadHandler = (prefix) => {
-        axios
-            .post(
-                (process.env.REACT_APP_BACKEND || 'http://localhost:5000') +
-                    `/api/projects/image-download`,
-                { prefix: prefix }
-            )
-            .then(downloadResponse => {
-                console.log('downloadResponse', downloadResponse);
-            })
-            .catch(downloadError => {
-                console.log('downloadError', downloadError);
-            });
-    }
 
 	render() {
         const { classes } = this.props;
@@ -355,7 +340,7 @@ class UserSettings extends Component {
                 </div>
                 </Modal>
 
-                <button onClick={() => this.singleFileDownloadHandler(`profile/${this.state.selectedFile ? `${this.state.selectedFile.name}` : '' }`)}>Download</button>
+                <button onClick={() => this.props.getThumbnail(`profile/${this.state.selectedFile ? `${this.state.selectedFile.name}` : null }`)}>Download</button>
                 </SettingsContainer>
 			</SettingsPageContainer>
 		);
@@ -372,8 +357,11 @@ const mapStateToProps = state => ({
 	username_error: state.settingsReducer.username_error,
 	gettingProfilePic: state.settingsReducer.gettingProfilePic,
 	img_url: state.settingsReducer.img_url,
-	profilepic_error: state.settingsReducer.profilepic_error,
+    profilepic_error: state.settingsReducer.profilepic_error,
+    gettingThumbnail: state.settingsReducer.gettingThumbnail,
+    img_thumbnail: state.settingsReducer.img_thumbnail,
+    thumbnail_error: state.settingsReducer.thumbnail_error,
 	userInfo: state.loggedInReducer.userInfo
 });
 
-export default compose(connect(mapStateToProps, { getUsername, getProfilePic }), withStyles(styles))(UserSettings);
+export default compose(connect(mapStateToProps, { getUsername, getProfilePic, getThumbnail }), withStyles(styles))(UserSettings);

@@ -37,14 +37,7 @@ router.post('/image-upload', function(req, res) {
 
 router.post('/image-download', function(req, res) {
 	const { prefix } = req.body;
-	aws
-		.download(prefix)
-		.then(downloadResponse => {
-			console.log('downloadResponse', downloadResponse);
-		})
-		.catch(downloadError => {
-			console.log('downloadError', downloadError);
-		});
+	res.status(200).send(aws.download(prefix));
 })
 
 // get project by id

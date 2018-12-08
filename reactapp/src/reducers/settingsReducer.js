@@ -4,7 +4,10 @@ import {
   GET_USERNAME_ERROR,
   GETTING_PROFILE_PIC,
   GOT_PROFILE_PIC,
-  GET_PROFILE_PIC_ERROR
+  GET_PROFILE_PIC_ERROR,
+  GETTING_THUMBNAIL,
+  GOT_THUMBNAIL,
+  GET_THUMBNAIL_ERROR
 } from "../actions";
 
 const initialState = {
@@ -13,7 +16,10 @@ const initialState = {
   username_error: null,
   gettingProfilePic: false,
   img_url: null,
-  profilepic_error: null
+  profilepic_error: null,
+  gettingThumbnail: false,
+  img_thumbnail: null,
+  thumbnail_error: null
 };
 
 const settingsReducer = (state = initialState, action) => {
@@ -51,6 +57,25 @@ const settingsReducer = (state = initialState, action) => {
         ...state,
         gettingProfilePic: false,
         profilepic_error: action.payload
+      }
+    
+    case GETTING_THUMBNAIL:
+      return {
+        ...state, gettingThumbnail: true
+      }
+
+    case GOT_THUMBNAIL:
+      return {
+        ...state, 
+        gettingThumbnail: false,
+        img_thumbnail: action.payload,
+      }
+
+    case GET_THUMBNAIL_ERROR:
+      return {
+        ...state, 
+        gettingThumbnail: false,
+        thumbnail_error: action.payload
       }
 
     default:
