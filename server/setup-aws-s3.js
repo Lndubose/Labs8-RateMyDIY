@@ -46,7 +46,7 @@ const upload = multer({
   })
 });
 
-const download = (prefix, cb) => {
+const download = (prefix, callback) => {
   let params = {
     Bucket: 'ratemydiyresized',
     Prefix: `${prefix}`
@@ -66,9 +66,10 @@ const download = (prefix, cb) => {
       s3.getSignedUrl('getObject', params, function(err, data) {
         if (err) {
           console.log('URL ERROR', err, err.stack);
+          return err;
         } else {
           console.log('URL DATA', data);
-          cb(data);
+          callback(null, data);
         }
       });
     }
