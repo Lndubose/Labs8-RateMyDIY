@@ -296,7 +296,7 @@ class UserSettings extends Component {
 				<Nav />
                 <SettingsContainer>
 				<ProfileImgHolder>
-                    <ProfileImg src={this.props.userInfo.img_url} />
+                    <ProfileImg src={this.props.userInfo.img_url.includes('amazonaws') ? (this.props.getThumbnail(`tile/${this.props.userInfo.img_url.match(/[^/]*$/)[0]}`)) : this.props.userInfo.img_url } />
                 </ProfileImgHolder>
 				<ProfileForm>
                     <div>
@@ -365,14 +365,4 @@ const mapStateToProps = state => ({
 	userInfo: state.loggedInReducer.userInfo
 });
 
-<<<<<<< HEAD
 export default compose(connect(mapStateToProps, { getUsername, getProfilePic, getThumbnail }), withStyles(styles))(UserSettings);
-=======
-export default compose(
-	connect(
-		mapStateToProps,
-		{ getUsername, getProfilePic }
-	),
-	withStyles(styles)
-)(UserSettings);
->>>>>>> 5f06e03176f572f2239f6928327d0738b00cc96f
