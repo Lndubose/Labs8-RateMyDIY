@@ -294,7 +294,6 @@ class UserSettings extends Component {
 		return (
 			<SettingsPageContainer>
 				<Nav />
-<<<<<<< HEAD
                 <SettingsContainer>
 				<ProfileImgHolder>
                     <ProfileImg src={this.props.userInfo.img_url} />
@@ -344,69 +343,6 @@ class UserSettings extends Component {
                 <button onClick={() => this.props.getThumbnail(`profile/${this.state.selectedFile ? `${this.state.selectedFile.name}` : null }`)}>Download</button>
                 <button onClick={() => (this.props.img_thumbnail ? this.props.getProfilePic(this.props.img_thumbnail) : null)}>Set Thumbnail</button>
                 </SettingsContainer>
-=======
-				<SettingsContainer>
-					<ProfileImgHolder>
-						<ProfileImg src={this.props.userInfo.img_url} />
-					</ProfileImgHolder>
-					<ProfileForm>
-						<div>
-							<FileButton htmlFor="fileupload">Choose File</FileButton>
-							<input
-								id="fileupload"
-								type="file"
-								style={{ display: 'none' }}
-								onChange={this.singleFileChangedHandler}
-							/>
-						</div>
-						<div>
-							<UploadButton onClick={this.singleFileUploadHandler}>
-								Upload
-							</UploadButton>
-						</div>
-					</ProfileForm>
-					{this.state.selectedFile ? (
-						<ProfileHeader>{this.state.selectedFile.name}</ProfileHeader>
-					) : null}
-					{this.props.gettingProfilePic ? (
-						<ReactLoading type="bubbles" color="#000" />
-					) : null}
-					<StatusMessage>
-						{this.props.img_url
-							? this.props.img_url
-							: this.props.profilepic_error}
-					</StatusMessage>
-					<UsernameContainer>
-						<UsernameHeader>{this.props.userInfo.username}</UsernameHeader>
-						<UsernameForm onSubmit={this.submitHandler}>
-							<StyledInput
-								type="text"
-								value={this.state.username}
-								name="username"
-								onChange={this.changeHandler}
-							/>
-							<UsernameButton type="submit" value="Change Username" />
-						</UsernameForm>
-						<StatusMessage>
-							{this.props.username_error ? this.props.username_error : null}
-						</StatusMessage>
-					</UsernameContainer>
-
-					<TextButton onClick={this.handleOpen}>
-						Configure Text Nofications
-					</TextButton>
-					<Modal
-						aria-labelledby="simple-modal-title"
-						aria-describedby="simple-modal-description"
-						open={this.state.open}
-						onClose={this.handleClose}
-					>
-						<div className={classes.paper}>
-							<Twillio />
-						</div>
-					</Modal>
-				</SettingsContainer>
->>>>>>> 5f06e03176f572f2239f6928327d0738b00cc96f
 			</SettingsPageContainer>
 		);
 	}
