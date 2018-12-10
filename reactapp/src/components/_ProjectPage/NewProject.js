@@ -8,7 +8,7 @@ import axios from 'axios';
 import { ConfirmModal } from '../../components';
 
 // Actions
-import { addProject, setRedirect } from '../../actions';
+import { addProject } from '../../actions';
 
 // Styles
 import styled from 'styled-components';
@@ -139,13 +139,16 @@ class NewProject extends Component {
 	submitHandler = event => {
 		event.preventDefault();
 
-		this.props.addProject({
-			user_id: this.props.userInfo.user_id,
-			project_name: this.state.project_name,
-			img_url: this.state.img_url,
-			text: this.state.text,
-			categories: this.state.categories
-		});
+		this.props.addProject(
+			{
+				user_id: this.props.userInfo.user_id,
+				project_name: this.state.project_name,
+				img_url: this.state.img_url,
+				text: this.state.text,
+				categories: this.state.categories
+			},
+			url => this.setState({ redirect: url })
+		);
 	};
 
 	// Cancel new project (with confirmation prompt)
@@ -162,78 +165,85 @@ class NewProject extends Component {
 					},
 					submit: event => {
 						event.preventDefault();
-						this.props.setRedirect('/');
+						this.setState({ redirect: '/' });
 					}
 				}
 			});
 		} else {
-			this.props.setRedirect('/');
+			this.setState({ redirect: '/' });
 		}
 	};
 
-	componentWillUnmount() {
-		this.props.setRedirect(null);
-	}
-
 	render() {
-		if (this.props.redirect) {
-			return <Redirect push to={this.props.redirect} />;
-		} else {
-			return (
-				<NewProjectContainer>
-					<ProjectForm onSubmit={this.submitHandler}>
-						<ProjectHeader>
-							<ProjectNameInput
-								name="project_name"
-								type="text"
-								placeholder="project title"
-								value={this.state.project_name}
-								onChange={this.changeHandler}
-								autoFocus
-								required
-							/>
-						</ProjectHeader>
-						<Img
-							src={this.state.img_url || 'placeholder image'}
-							alt={this.state.img_url || 'placeholder image'}
-						/>
-						<form>
-							<input type="file" onChange={this.singleFileChangedHandler} />
-							<div className="mt-5">
-								<button
-									className="btn btn-info"
-									onClick={this.singleFileUploadHandler}
-								>
-									Upload!
-								</button>
-							</div>
-						</form>
-						<TextInput
-							name="text"
+		return (
+			<NewProjectContainer>
+				{this.state.redirect && <Redirect push to={this.state.redirect} />}
+				<ProjectForm onSubmit={this.submitHandler}>
+					<ProjectHeader>
+						<ProjectNameInput
+							name="project_name"
 							type="text"
-							placeholder="project description"
-							value={this.state.text}
+							placeholder="project title"
+							value={this.state.project_name}
 							onChange={this.changeHandler}
+							autoFocus
 							required
 						/>
-						<ProjectButtonContainer>
-							<CancelButton onClick={this.cancelHandler}>Cancel</CancelButton>
-							<SubmitInput type="submit" value="Add New Project" />
-						</ProjectButtonContainer>
-						{this.props.addingProject && (
-							<StatusMessage small>Adding new project...</StatusMessage>
-						)}
-						{this.props.addingProjectError && (
-							<StatusMessage small error>
-								{this.props.addingProjectError}
-							</StatusMessage>
-						)}
-					</ProjectForm>
+					</ProjectHeader>
+					<Img
+						src={this.state.img_url || 'placeholder image'}
+						alt={this.state.img_url || 'placeholder image'}
+					/>
+					<form>
+						<input
+							type="file"
+							onChange={this.singleFileChangedHandler}
+							disabled={this.props.addingProject}
+						/>
+						<div className="mt-5">
+							<button
+								className="btn btn-info"
+								onClick={this.singleFileUploadHandler}
+								disabled={this.props.addingProject}
+							>
+								Upload!
+							</button>
+						</div>
+					</form>
+					<TextInput
+						name="text"
+						type="text"
+						placeholder="project description"
+						value={this.state.text}
+						onChange={this.changeHandler}
+						required
+					/>
+					<ProjectButtonContainer>
+						<CancelButton
+							onClick={this.cancelHandler}
+							disabled={this.props.addingProject}
+						>
+							Cancel
+						</CancelButton>
+						<SubmitInput
+							type="submit"
+							value="Add New Project"
+							disabled={this.props.addingProject}
+						/>
+					</ProjectButtonContainer>
+					{this.props.addingProject && (
+						<StatusMessage small>Adding new project...</StatusMessage>
+					)}
+					{this.props.addingProjectError && (
+						<StatusMessage small error>
+							{this.props.addingProjectError}
+						</StatusMessage>
+					)}
+				</ProjectForm>
 
-					{this.state.confirm && <ConfirmModal confirm={this.state.confirm} />}
-				</NewProjectContainer>
-			);
-		}
+				{this.state.confirm && <ConfirmModal confirm={this.state.confirm} />}
+			</NewProjectContainer>
+		);
 	}
 }
 
@@ -242,16 +252,13 @@ const mapStateToProps = state => {
 		userInfo: state.loggedInReducer.userInfo,
 
 		addingProject: state.projectReducer.addingProject,
-		addingProjectError: state.projectReducer.addingProjectError,
-
-		redirect: state.projectReducer.redirect
+		addingProjectError: state.projectReducer.addingProjectError
 	};
 };
 
 export default connect(
 	mapStateToProps,
 	{
-		addProject,
-		setRedirect
+		addProject
 	}
 )(NewProject);

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { AccountSideBar, Nav } from '../../../components';
 import { Header } from '../../../components';
@@ -75,9 +75,9 @@ class ProjectList extends Component {
 	}
 }
 
-ProjectList.propTypes = {
-	classes: PropTypes.object.isRequired
-};
+// ProjectList.propTypes = {
+// 	classes: PropTypes.object.isRequired
+// };
 
 const mapStateToProps = state => {
 	return {

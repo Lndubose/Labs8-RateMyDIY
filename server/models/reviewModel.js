@@ -6,10 +6,11 @@ module.exports = {
 	getReviewID,
 	addReview,
 	editReview,
-	removeReview
+	removeReview,
+	likeReview
 };
 
-function getReview(review_id) {
+function getReview(review_id, user_id) {
 	return db('reviews')
 		.where({ review_id })
 		.join('users as reviewers', 'reviewers.user_id', 'reviews.user_id')
@@ -27,7 +28,21 @@ function getReview(review_id) {
 			'reviews.rating',
 			'reviews.text'
 		)
-		.first();
+		.first()
+		.then(review => {
+			// Is the user logged in?
+			if (user_id) {
+				// Return the review with like state
+				return db('likes')
+					.where({ review_id, user_id })
+					.select('like')
+					.first()
+					.then(like => ({ ...review, like }));
+			} else {
+				// Return the review without like state
+				return review;
+			}
+		});
 }
 
 function getReviewID(project_id, user_id) {
@@ -429,6 +444,127 @@ function removeReview(user_id, review_id) {
 							}
 						});
 				});
+			}
+		});
+}
+
+function likeReview({ user_id, review_id, like }) {
+	console.log(
+		`\nUser ${user_id} attempting to set like value to ${like} for review ${review_id}\n...`
+	);
+	return db('reviews')
+		.where({ review_id })
+		.first()
+		.then(review => {
+			// Does this review exist?
+			if (!review) {
+				// Review not found
+				return { reviewNotFound: true };
+			}
+			// Are you the author of this review?
+			else if (review.user_id === user_id) {
+				// Can't like your own review
+				return { ownReview: true };
+			} else {
+				return db('likes')
+					.where({ user_id, review_id })
+					.first()
+					.then(previous_like => {
+						previous_like = previous_like ? previous_like.like : undefined;
+						// Has the like value not changed?
+						if (like === previous_like) {
+							// Don't update anything
+							return { liked: { like } };
+						} else {
+							// Transaction time!
+							return db
+								.transaction(trx => {
+									// This gets used later to update the totals
+									const updateHelpfulness = difference => {
+										// Update the review's helpfulness
+										return trx('reviews')
+											.where({ review_id })
+											.increment('helpfulness', difference)
+											.then(review_updated => {
+												if (!review_updated) {
+													trx.rollback;
+												} else {
+													// Update the user's helpfulness
+													return trx('users')
+														.where({ user_id: review.user_id })
+														.increment('helpfulness', difference)
+														.then(user_updated => {
+															console.log(
+																{ user_id: review.user_id },
+																`updated:`,
+																user_updated
+															);
+															if (!user_updated) {
+																trx.rollback;
+															} else {
+																return difference;
+															}
+														});
+												}
+											});
+									};
+
+									// Are we adding a new like value?
+									if (previous_like === undefined) {
+										// Create the row
+										return trx('likes')
+											.insert({ user_id, review_id, like }, 'user_id')
+											.then(([created]) => {
+												if (!created) {
+													trx.rollback;
+												} else {
+													// Return the difference
+													return updateHelpfulness(like);
+												}
+											});
+										// Are we removing the like value?
+									} else if (like === undefined) {
+										// Delete the row
+										return trx('likes')
+											.where({ user_id, review_id })
+											.del()
+											.then(deleted => {
+												if (!deleted) {
+													trx.rollback;
+												} else {
+													// Return the difference
+													return updateHelpfulness(-previous_like);
+												}
+											});
+									} else {
+										// Update the row
+										return trx('likes')
+											.where({ user_id, review_id })
+											.update({ like }, 'user_id')
+											.then(([updated]) => {
+												if (!updated) {
+													trx.rollback;
+												} else {
+													// Return the difference
+													return updateHelpfulness(like * 2);
+												}
+											});
+									}
+								})
+								.then(difference => {
+									console.log(
+										`Helpfulness adjusted by ${difference} for project ${review_id} and user ${
+											review.user_id
+										}`
+									);
+									return { liked: { like } };
+								})
+								.catch(error => {
+									console.error(`Transaction error:`, error);
+									return error;
+								});
+						}
+					});
 			}
 		});
 }

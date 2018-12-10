@@ -17,26 +17,23 @@ const ProjectForm = styled.form`
 `;
 
 const Img = styled.img`
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 600px;
-	width: auto;
+	display: block;
+	width: 100%;
 	background: #cceeee;
 	margin: 0 auto 20px auto;
-	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 `;
 const HiddenInputFileForm = styled.input`
 	display: none;
 `;
 
-const FileLabel = styled.label`
-	  font-size: 1.25em;
-    font-weight: 700;
-    color: white;
-    background-color: black;
-    display: inline-block;
-`;
+// const FileLabel = styled.label`
+// 	font-size: 1.25em;
+// 	font-weight: 700;
+// 	color: white;
+// 	background-color: black;
+// 	display: inline-block;
+// `;
 
 const TextInput = styled.input``;
 
@@ -68,6 +65,7 @@ class EditProject extends Component {
 		project_name: '',
 		img_url: null,
 		text: '',
+		categories: [],
 		selectedFile: null
 	};
 
@@ -90,11 +88,18 @@ class EditProject extends Component {
 			axios
 				.post(
 					process.env.REACT_APP_BACKEND ||
-					'http://localhost:5000/api/projects/image-upload',
-					data, {
+						'http://localhost:5000/api/projects/image-upload',
+					data,
+					{
 						onUploadProgress: progressEvent => {
-							// display progress percentage in console 
-							console.log('Upload Progress: ' + Math.round((progressEvent.loaded / progressEvent.total) * 100) + '%')
+							// display progress percentage in console
+							console.log(
+								'Upload Progress: ' +
+									Math.round(
+										(progressEvent.loaded / progressEvent.total) * 100
+									) +
+									'%'
+							);
 						}
 					},
 					{
@@ -150,12 +155,17 @@ class EditProject extends Component {
 	submitHandler = event => {
 		event.preventDefault();
 
-		this.props.updateProject(this.props.project.project_id, {
-			user_id: this.props.user_id,
-			project_name: this.state.project_name,
-			img_url: this.state.img_url,
-			text: this.state.text
-		});
+		this.props.updateProject(
+			this.props.project.project_id,
+			{
+				user_id: this.props.user_id,
+				project_name: this.state.project_name,
+				img_url: this.state.img_url,
+				text: this.state.text,
+				categories: this.state.categories
+			},
+			() => this.props.willUpdateProject(false)
+		);
 	};
 
 	// Discard changes (with confirmation prompt)
@@ -218,12 +228,21 @@ class EditProject extends Component {
 						type="file"
 						name="file"
 						onChange={this.singleFileChangedHandler}
-						ref={fileInput => this.fileInput = fileInput} />
-					<button onClick={() => this.fileInput.click()}>{this.state.selectedFile ? this.state.selectedFile.name : 'Pick File'}</button>
+						ref={fileInput => (this.fileInput = fileInput)}
+					/>
+					<button
+						onClick={() => this.fileInput.click()}
+						disabled={this.props.updatingProject || this.props.gettingProject}
+					>
+						{this.state.selectedFile
+							? this.state.selectedFile.name
+							: 'Pick File'}
+					</button>
 					<div className="mt-5">
 						<button
 							className="btn btn-info"
 							onClick={this.singleFileUploadHandler}
+							disabled={this.props.updatingProject || this.props.gettingProject}
 						>
 							Upload!
 						</button>
@@ -238,15 +257,21 @@ class EditProject extends Component {
 					required
 				/>
 				<ProjectButtonContainer>
-					<CancelButton onClick={this.cancelHandler}>Cancel</CancelButton>
-					<SubmitInput type="submit" value="Submit Changes" />
+					<CancelButton
+						onClick={this.cancelHandler}
+						disabled={this.props.updatingProject || this.props.gettingProject}
+					>
+						Cancel
+					</CancelButton>
+					<SubmitInput
+						type="submit"
+						value="Submit Changes"
+						disabled={this.props.updatingProject || this.props.gettingProject}
+					/>
 				</ProjectButtonContainer>
 
-				{this.props.updatingProject && (
+				{(this.props.updatingProject || this.props.gettingProject) && (
 					<StatusMessage small>Updating project...</StatusMessage>
-				)}
-				{this.props.gettingProject && (
-					<StatusMessage small>Success!</StatusMessage>
 				)}
 				{this.props.updatingProjectError && (
 					<StatusMessage small error>
@@ -262,10 +287,10 @@ class EditProject extends Component {
 
 const mapStateToProps = state => {
 	return {
-		updatingProject: state.projectReducer.updatingProject,
-		updatingProjectError: state.projectReducer.updatingProjectError,
+		gettingProject: state.projectReducer.gettingProject,
 
-		gettingProject: state.projectReducer.gettingProject
+		updatingProject: state.projectReducer.updatingProject,
+		updatingProjectError: state.projectReducer.updatingProjectError
 	};
 };
 

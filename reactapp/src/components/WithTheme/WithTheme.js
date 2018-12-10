@@ -16,6 +16,9 @@ import PropTypes from 'prop-types';
 // }
 
 const muiTheme = createMuiTheme({
+	typography: {
+		useNextVariants: true
+	},
 	palette: {
 		primary: {
 			light: '#fff', // viking -> changed back to white on 12/6

@@ -12,7 +12,6 @@ import {
 	LandingPage,
 	ProjectList,
 	CreateEditPage,
-
 	UserSettings,
 	//  SearchBar, // not used
 	SearchPage,
@@ -41,9 +40,9 @@ class App extends Component {
 	render() {
 		return (
 			<WithTheme>
-			<AppContainer>
-				{/* <h1>Navigation</h1> */}
-				{/* <ul>
+				<AppContainer>
+					{/* <h1>Navigation</h1> */}
+					{/* <ul>
           <li>
             <Link to="/">Home</Link>
           </li>
@@ -60,18 +59,18 @@ class App extends Component {
             <Link to="/signin">Sign Up or Sign In</Link>
           </li>
         </ul> */}
-				{/* <Navbar /> */}
-				<Route exact path="/" component={LandingPage} />
+					{/* <Navbar /> */}
+					<Route exact path="/" component={LandingPage} />
 
-				<Route exact path="/ReviewList" component={ReviewList} />
-				<Route exact path="/ProjectList" component={ProjectList} />
-				<Route exact path="/CreateEditPage" component={CreateEditPage} />
-				<Route path="/settings" component={UserSettings} />
-				<Route path="/search" component={SearchPage} />
-				<Route path="/project/:id" component={ProjectPage} />
-				<Route path="/newproject" component={NewProject} />
-				<Route path="/about" component={AboutTheTeam} />
-			</AppContainer>
+					<Route exact path="/ReviewList" component={ReviewList} />
+					<Route exact path="/ProjectList" component={ProjectList} />
+					<Route exact path="/CreateEditPage" component={CreateEditPage} />
+					<Route path="/settings" component={UserSettings} />
+					<Route path="/search" component={SearchPage} />
+					<Route path="/project/:project_id" component={ProjectPage} />
+					<Route path="/newproject" component={NewProject} />
+					<Route path="/about" component={AboutTheTeam} />
+				</AppContainer>
 			</WithTheme>
 		);
 	}

@@ -13,7 +13,7 @@ exports.up = function(knex, Promise) {
 		table.decimal('user_rating'); // average rating among all projects
 		table.integer('rating_sum').unsigned(); // sum of all ratings among projects
 		table.integer('rating_count').unsigned(); // count of all ratings among projects
-		table.integer('helpfulness'); // total likes minus dislikes
+		table.integer('helpfulness').defaultTo(0); // total likes minus dislikes
 	});
 };
 

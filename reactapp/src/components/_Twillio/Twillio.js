@@ -22,9 +22,9 @@ const StyledInput = styled.input`
 	padding: 12px 20px;
 	margin: 0 0 4%;
 
-    &:focus {
-        outline: none;
-    }
+	&:focus {
+		outline: none;
+	}
 `;
 
 const StyledTextarea = styled.textarea`
@@ -40,11 +40,11 @@ const StyledTextarea = styled.textarea`
 const TextButton = styled.p`
 	font-size: 1.6rem;
 	font-weight: bold;
-    margin: 4% auto 0%;
+	margin: 4% auto 0%;
 
-    &:hover {
-        cursor: pointer;
-    }
+	&:hover {
+		cursor: pointer;
+	}
 `;
 class Twillio extends Component {
 	state = {
@@ -65,9 +65,9 @@ class Twillio extends Component {
 
 	render() {
 		const { text } = this.state;
-		const spacer = {
-			margin: 8
-		};
+		// const spacer = {
+		// 	margin: 8
+		// };
 		const textArea = {
 			borderRadius: 4
 		};
@@ -75,7 +75,10 @@ class Twillio extends Component {
 		return (
 			<TwillioContainer>
 				<TwillioHeader> Receive Updates </TwillioHeader>
-				<StyledLabel style={{ margin: '0 auto' }}> Your Phone Number </StyledLabel>
+				<StyledLabel style={{ margin: '0 auto' }}>
+					{' '}
+					Your Phone Number{' '}
+				</StyledLabel>
 				<br />
 				<StyledInput
 					value={text.recipient}

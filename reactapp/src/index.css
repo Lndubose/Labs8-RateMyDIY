@@ -66,17 +66,20 @@ body {
 	font-size: 1.4rem;
 }
 
-.modal-open{
+.modal-open {
 	padding-left: 17px;
-	
 }
 
-.modal-dialog{
-top: 35%;
+.modal-dialog {
+	top: 35%;
 }
 
 @media (max-width: 500px) {
 	body {
 		overflow-x: hidden;
 	}
+}
+
+button:focus {
+	outline: none;
 }

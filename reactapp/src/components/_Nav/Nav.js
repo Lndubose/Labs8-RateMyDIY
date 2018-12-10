@@ -13,9 +13,6 @@ import { sendEmail } from '../../actions';
 const loginURL =
 	(process.env.REACT_APP_BACKEND || `http://localhost:5000`) + `/signin`;
 
-const logoutURL =
-	(process.env.REACT_APP_BACKEND || `http://localhost:5000`) + `/signout`;
-
 class Nav extends React.Component {
 	constructor(props) {
 		super(props);
@@ -59,19 +56,17 @@ class Nav extends React.Component {
 					{/* if not logged in, show the login/signup buttons */}
 					{this.props.userInfo.user_id ? (
 						<Fragment>
-							<WelcomeMessage>
-								{this.props.userInfo.username}
-							</WelcomeMessage>
+							<WelcomeMessage>{this.props.userInfo.username}</WelcomeMessage>
 							<DropDown />
 						</Fragment>
 					) : (
-						<Fragment>
+						<LoginContainer>
 							<a href={loginURL}>
 								<Button color="primary">
 									<h3>Login/Signup</h3>
 								</Button>
 							</a>
-						</Fragment>
+						</LoginContainer>
 					)}
 
 					{/* if logged in, show component that says "Hello NAME then have a signout button" */}
@@ -122,11 +117,16 @@ const AuthWrapper = styled.div`
 	}
 `;
 
+const LoginContainer = styled.div`
+	display: flex;
+	align-items: center;
+	height: 56px;
+`;
+
 const WelcomeMessage = styled.p`
 	font-size: 14px;
 	white-space: nowrap;
-	color:white;
-	
+	color: white;
 
 	@media (max-width: 500px) {
 		display: none;

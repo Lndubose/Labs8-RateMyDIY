@@ -5,36 +5,33 @@ import {
 	ADDING_PROJECT,
 	ADDED_PROJECT,
 	ADD_PROJECT_ERROR,
-	WILL_UPDATE_PROJECT,
 	UPDATING_PROJECT,
 	UPDATED_PROJECT,
 	UPDATE_PROJECT_ERROR,
 	DELETING_PROJECT,
 	DELETED_PROJECT,
-	DELETE_PROJECT_ERROR,
-	SET_REDIRECT
+	DELETE_PROJECT_ERROR
 } from '../actions';
 
 const initialState = {
-	project: {},
+	project: {}
 
-	gettingProjects: false,
-	gettingProjectsError: null,
+	// gettingProjects: false,
+	// gettingProjectsError: null,
 
-	gettingProject: false,
-	gettingProjectError: null,
+	// gettingProject: false,
+	// gettingProjectError: null,
 
-	addingProject: false,
-	addingProjectError: null,
+	// addingProject: false,
+	// addingProjectError: null,
 
-	projectToUpdate: false,
-	updatingProject: false,
-	updatingProjectError: null,
+	// updatingProject: false,
+	// updatingProjectError: null,
 
-	deletingProject: false,
-	DeletingProjectError: null,
+	// deletingProject: false,
+	// DeletingProjectError: null,
 
-	redirect: null
+	// redirect: null
 };
 
 const projectReducer = (state = initialState, action) => {
@@ -64,8 +61,7 @@ const projectReducer = (state = initialState, action) => {
 		case ADDED_PROJECT:
 			return {
 				...state,
-				addingProject: false,
-				redirect: `/project/${action.payload}`
+				addingProject: false
 			};
 
 		case ADD_PROJECT_ERROR:
@@ -75,13 +71,6 @@ const projectReducer = (state = initialState, action) => {
 				addingProjectError: `${action.payload}`
 			};
 
-		// willUpdateProject
-		case WILL_UPDATE_PROJECT:
-			return {
-				...state,
-				projectToUpdate: action.payload
-			};
-
 		// updateProject
 		case UPDATING_PROJECT:
 			return { ...state, updatingProject: true };
@@ -89,8 +78,7 @@ const projectReducer = (state = initialState, action) => {
 		case UPDATED_PROJECT:
 			return {
 				...state,
-				updatingProject: false,
-				projectToUpdate: false
+				updatingProject: false
 			};
 
 		case UPDATE_PROJECT_ERROR:
@@ -107,8 +95,7 @@ const projectReducer = (state = initialState, action) => {
 		case DELETED_PROJECT:
 			return {
 				...state,
-				deletingProject: false,
-				redirect: '/'
+				deletingProject: false
 			};
 
 		case DELETE_PROJECT_ERROR:
@@ -116,13 +103,6 @@ const projectReducer = (state = initialState, action) => {
 				...state,
 				deletingProject: false,
 				DeletingProjectError: `${action.payload}`
-			};
-
-		// redirect
-		case SET_REDIRECT:
-			return {
-				...state,
-				redirect: action.payload
 			};
 
 		default:

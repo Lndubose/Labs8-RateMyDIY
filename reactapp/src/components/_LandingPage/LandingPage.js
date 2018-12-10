@@ -20,7 +20,7 @@ import {
 	PopularMakers,
 	PopularReviewers,
 	SearchBar,
-	Twillio,
+	// Twillio,
 	Footer,
 	LogInPopUp,
 	SearchTags
@@ -36,8 +36,9 @@ const LandingPageContentWrapper = styled.div`
 `;
 const LandingPageWrapper = styled.div`
 	width: 100%;
-	background-color: ${props => props.theme.mui.palette.primary.main} @media
-		(max-width: 500px) {
+	background-color: ${props => props.theme.mui.palette.primary.main};
+
+	@media (max-width: 500px) {
 		width: 100vw;
 	}
 `;
@@ -46,13 +47,13 @@ const imgUrl =
 	'http://talebgroup.wwwnlssr4.supercp.com/wp-content/uploads/2018/01/carpentary-3-1-1024x648.jpg';
 
 const HeroImageContainer = styled.div`
-	  width: 100%;
+	width: 100%;
 	height: 560px;
-	  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+	background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
 		url(${imgUrl});
-	  background-size: cover;
-	  background-repeat: no-repeat;
-	  background-position: bottom;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: bottom;
 `;
 
 const HeroSearchContainer = styled.div`

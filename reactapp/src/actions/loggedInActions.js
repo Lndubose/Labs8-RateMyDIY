@@ -1,9 +1,5 @@
 import axios from 'axios';
 
-// Actions
-import { project_ReviewId_Chain } from '../actions';
-import { fetchMyProjects } from '../actions';
-
 axios.defaults.withCredentials = true;
 
 // get userInfo

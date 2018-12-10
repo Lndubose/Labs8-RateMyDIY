@@ -122,12 +122,15 @@ class NewPost extends Component {
 	submitHandler = event => {
 		event.preventDefault();
 
-		this.props.addPost({
-			user_id: this.props.user_id,
-			project_id: this.props.project_id,
-			img_url: this.state.img_url,
-			text: this.state.text
-		});
+		this.props.addPost(
+			{
+				user_id: this.props.user_id,
+				project_id: this.props.project_id,
+				img_url: this.state.img_url,
+				text: this.state.text
+			},
+			() => this.props.willAddPost(false)
+		);
 	};
 
 	// Cancel new post (with confirmation prompt)
@@ -170,18 +173,32 @@ class NewPost extends Component {
 							autoFocus
 						/>
 						<PostButtonContainer>
-							<CancelButton onClick={this.cancelHandler}>Cancel</CancelButton>
-							<SubmitInput type="submit" value="Add Text Field" />
+							<CancelButton
+								onClick={this.cancelHandler}
+								disabled={this.props.addingPost || this.props.gettingProject}
+							>
+								Cancel
+							</CancelButton>
+							<SubmitInput
+								type="submit"
+								value="Add Text Field"
+								disabled={this.props.addingPost || this.props.gettingProject}
+							/>
 						</PostButtonContainer>
 					</PostForm>
 				) : (
 					<PostForm onSubmit={this.submitHandler}>
 						<form>
-							<input type="file" onChange={this.singleFileChangedHandler} />
+							<input
+								type="file"
+								onChange={this.singleFileChangedHandler}
+								disabled={this.props.addingPost || this.props.gettingProject}
+							/>
 							<div className="mt-5">
 								<button
 									className="btn btn-info"
 									onClick={this.singleFileUploadHandler}
+									disabled={this.props.addingPost || this.props.gettingProject}
 								>
 									Upload!
 								</button>
@@ -199,12 +216,21 @@ class NewPost extends Component {
 							onChange={this.changeHandler}
 						/>
 						<PostButtonContainer>
-							<CancelButton onClick={this.cancelHandler}>Cancel</CancelButton>
-							<SubmitInput type="submit" value="Add Picture" />
+							<CancelButton
+								onClick={this.cancelHandler}
+								disabled={this.props.addingPost || this.props.gettingProject}
+							>
+								Cancel
+							</CancelButton>
+							<SubmitInput
+								type="submit"
+								value="Add Picture"
+								disabled={this.props.addingPost || this.props.gettingProject}
+							/>
 						</PostButtonContainer>
 					</PostForm>
 				)}
-				{this.props.addingPost && (
+				{(this.props.addingPost || this.props.gettingProject) && (
 					<StatusMessage small>Adding new post...</StatusMessage>
 				)}
 				{this.props.addingPostError && (
@@ -220,6 +246,8 @@ class NewPost extends Component {
 
 const mapStateToProps = state => {
 	return {
+		gettingProject: state.projectReducer.gettingProject,
+
 		addingPost: state.postReducer.addingPost,
 		addingPostError: state.postReducer.addingPostError
 	};

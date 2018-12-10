@@ -11,77 +11,73 @@ import red from '@material-ui/core/colors/red';
 import './ReviewList.css';
 
 const styles = theme => ({
-  card: {
-    width: '300px',
-    margin: '25px',
-    marginBottom: '30px',
-    '&:hover': {
-      backgroundColor: '0'
-    },
-    backgroundColor: theme.palette.secondary.light,
-    borderRadius: '35px',
-    color: theme.palette.secondary.main
-  },
-  media: {
-    height: 0,
-    paddingTop: '56.25%' // 16:9
-  },
-  actions: {
-    display: 'flex'
-  },
-  avatar: {
-    backgroundColor: red[500]
-  }
+	card: {
+		width: '300px',
+		margin: '25px',
+		marginBottom: '30px',
+		'&:hover': {
+			backgroundColor: '0'
+		},
+		backgroundColor: theme.palette.secondary.light,
+		borderRadius: '35px',
+		color: theme.palette.secondary.main
+	},
+	media: {
+		height: 0,
+		paddingTop: '56.25%' // 16:9
+	},
+	actions: {
+		display: 'flex'
+	},
+	avatar: {
+		backgroundColor: red[500]
+	}
 });
 
 const CardLink = styled.a`
-  text-decoration: none;
-  color:black &:hover {
-    text-decoration: none;
-    color: black;
-  }
+	text-decoration: none;
+	color:black &:hover {
+		text-decoration: none;
+		color: black;
+	}
 `;
 
 class ReviewRender extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    const { classes, theme } = this.props;
-    return (
-      <div className="myReviewsDisplay" key={this.props.myReview_id}>
-        <CardLink
-          className="project-card"
-          href={`project/${this.props.myReview_id}`}
-        >
-          <Card className={classes.card}>
-            <CardHeader action={null} title={this.props.myReviewsText} />
-            {/* <div className="projectImg">
+	render() {
+		const { classes } = this.props;
+		return (
+			<div className="myReviewsDisplay" key={this.props.myReview_id}>
+				<CardLink
+					className="project-card"
+					href={`project/${this.props.myReview_id}`}
+				>
+					<Card className={classes.card}>
+						<CardHeader action={null} title={this.props.myReviewsText} />
+						{/* <div className="projectImg">
                         <img src={myProject.img_url} />
                       </div> */}
-            <CardMedia
-              className={classes.media}
-              image={this.props.myReviewsImg_url}
-            />
-            <CardContent>
-              <StarRatings
-                rating={Math.round(this.props.myReviewsRating)}
-                starRatedColor="yellow"
-                starDimension="14px"
-                starSpacing="4px"
-                starRatedColor="black"
-              />
-            </CardContent>
-          </Card>
-        </CardLink>
-      </div>
-    );
-  }
+						<CardMedia
+							className={classes.media}
+							image={this.props.myReviewsImg_url}
+						/>
+						<CardContent>
+							<StarRatings
+								rating={Math.round(this.props.myReviewsRating)}
+								// starRatedColor="yellow"
+								starDimension="14px"
+								starSpacing="4px"
+								starRatedColor="black"
+							/>
+						</CardContent>
+					</Card>
+				</CardLink>
+			</div>
+		);
+	}
 }
 
 ReviewRender.propTypes = {
-  classes: PropTypes.object.isRequired
+	classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(ReviewRender);

@@ -20,16 +20,16 @@ const PostForm = styled.form``;
 
 const ImgContainer = styled.div`
 	padding-top: 12px;
-  margin: auto;
+	margin: auto;
 	max-width: 700px;
 	height: auto;
 `;
 
 const Img = styled.img`
-  margin: 0 auto;
+	margin: 0 auto;
 	background: white;
-  width: auto;
-  height: auto;
+	width: auto;
+	height: auto;
 `;
 
 const TextInput = styled.input``;
@@ -72,7 +72,7 @@ class EditPost extends Component {
 			axios
 				.post(
 					(process.env.REACT_APP_BACKEND || 'http://localhost:5000') +
-					`/api/projects/image-upload`,
+						`/api/projects/image-upload`,
 					data,
 					{
 						headers: {
@@ -127,12 +127,16 @@ class EditPost extends Component {
 	submitHandler = event => {
 		event.preventDefault();
 
-		this.props.updatePost(this.props.post.post_id, {
-			user_id: this.props.user_id,
-			project_id: this.props.project_id,
-			img_url: this.state.img_url,
-			text: this.state.text
-		});
+		this.props.updatePost(
+			this.props.post.post_id,
+			{
+				user_id: this.props.user_id,
+				project_id: this.props.project_id,
+				img_url: this.state.img_url,
+				text: this.state.text
+			},
+			() => this.props.willUpdatePost(false)
+		);
 	};
 
 	// Discard changes (with confirmation prompt)
@@ -181,11 +185,16 @@ class EditPost extends Component {
 						</ImgContainer>
 					)}
 					<form>
-						<input type="file" onChange={this.singleFileChangedHandler} />
+						<input
+							type="file"
+							onChange={this.singleFileChangedHandler}
+							disabled={this.props.updatingPost || this.props.gettingProject}
+						/>
 						<div className="mt-5">
 							<button
 								className="btn btn-info"
 								onClick={this.singleFileUploadHandler}
+								disabled={this.props.updatingPost || this.props.gettingProject}
 							>
 								Upload!
 							</button>
@@ -206,12 +215,21 @@ class EditPost extends Component {
 						required={!this.state.img_url}
 					/>
 					<PostButtonContainer>
-						<CancelButton onClick={this.cancelHandler}>Cancel</CancelButton>
-						<SubmitInput type="submit" value="Submit Changes" />
+						<CancelButton
+							onClick={this.cancelHandler}
+							disabled={this.props.updatingPost || this.props.gettingProject}
+						>
+							Cancel
+						</CancelButton>
+						<SubmitInput
+							type="submit"
+							value="Submit Changes"
+							disabled={this.props.updatingPost || this.props.gettingProject}
+						/>
 					</PostButtonContainer>
 				</PostForm>
 
-				{this.props.updatingPost && (
+				{(this.props.updatingPost || this.props.gettingProject) && (
 					<StatusMessage small>Updating post...</StatusMessage>
 				)}
 				{this.props.updatingPostError && (
@@ -228,6 +246,8 @@ class EditPost extends Component {
 
 const mapStateToProps = state => {
 	return {
+		gettingProject: state.projectReducer.gettingProject,
+
 		updatingPost: state.postReducer.updatingPost,
 		updatingPostError: state.postReducer.updatingPostError
 	};

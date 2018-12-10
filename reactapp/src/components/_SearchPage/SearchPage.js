@@ -9,10 +9,10 @@ import queryString from 'query-string';
 
 //Import components
 import {
-	SearchBar,
+	// SearchBar,
 	ProjectTile,
 	SearchPageSearchBar,
-	Nav,
+	// Nav,
 	Header
 } from '../../components';
 

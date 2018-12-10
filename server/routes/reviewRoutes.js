@@ -49,10 +49,7 @@ router.post('/', ensureLoggedIn, authorize, function(req, res, next) {
 
 	if (!rating || !text) {
 		res.status(422).json({ error: 'Missing parameters.' });
-	} else if (ratingInt < 1 || 5 < ratingInt || !Number.isInteger(ratingInt)) {
-		console.log(
-			`\nUser ${user_id} triggered 'Nice try' error when trying to submit a review for project ${project_id}`
-		);
+	} else if (!Number.isInteger(ratingInt) || ratingInt < 1 || 5 < ratingInt) {
 		res.status(403).json({ error: 'Nice try.' });
 	} else {
 		const review = { user_id, project_id, rating: ratingInt, text };
@@ -93,10 +90,15 @@ router.put('/:review_id', ensureLoggedIn, authorize, function(req, res, next) {
 	const { user_id, rating, project_id, text } = req.body;
 	const { review_id } = req.params;
 
+	// Convert rating to integer
+	ratingInt = parseInt(rating);
+
 	if (!rating || !text) {
 		res.status(422).json({ error: 'Missing parameters.' });
+	} else if (!Number.isInteger(ratingInt) || ratingInt < 1 || 5 < ratingInt) {
+		res.status(403).json({ error: 'Nice try.' });
 	} else {
-		db.editReview({ user_id, review_id, project_id, rating, text })
+		db.editReview({ user_id, review_id, project_id, rating: ratingInt, text })
 			.then(({ review_id, reviewNotFound }) => {
 				if (reviewNotFound) {
 					res.status(404).json({ error: 'Review not found.' });
@@ -129,6 +131,32 @@ router.delete('/:review_id', ensureLoggedIn, authorize, function(
 				res.status(200).json(deleted);
 			} else {
 				res.status(500).json({ error: `Failed to delete review` });
+			}
+		})
+		.catch(err => {
+			res.status(500).json(err);
+		});
+});
+
+// like review by id
+router.put('/:review_id/like', ensureLoggedIn, authorize, function(
+	req,
+	res,
+	next
+) {
+	const { user_id, like } = req.body;
+	const { review_id } = req.params;
+
+	db.likeReview({ user_id, review_id, like })
+		.then(({ liked, reviewNotFound, ownReview }) => {
+			if (reviewNotFound) {
+				res.status(404).json({ error: 'Review not found.' });
+			} else if (ownReview) {
+				res.status(403).json({ error: `You can't like your own review.` });
+			} else if (liked) {
+				res.status(200).json(liked);
+			} else {
+				res.status(500).json({ error: `Failed to update like value` });
 			}
 		})
 		.catch(err => {

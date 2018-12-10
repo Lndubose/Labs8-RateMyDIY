@@ -54,7 +54,7 @@ class ProjectCard extends React.Component {
 	render() {
 		const { classes, theme } = this.props;
 		console.log(this.props.project);
-		console.log('THEME', theme)
+		console.log('THEME', theme);
 		return (
 			<CardLink
 				className="project-card"
@@ -70,7 +70,7 @@ class ProjectCard extends React.Component {
 						}
 						action={null}
 						title={this.props.project.project_name}
-						subheader={<a href="#helloWorld">{this.props.project.username} </a>}
+						subheader={<div>{this.props.project.username} </div>}
 					/>
 
 					<CardMedia
@@ -81,7 +81,7 @@ class ProjectCard extends React.Component {
 					<CardContent>
 						<StarRatings
 							rating={Math.round(this.props.project.project_rating)}
-							starRatedColor="yellow"
+							// starRatedColor="yellow"
 							starDimension="14px"
 							starSpacing="4px"
 							starRatedColor="black"
@@ -103,4 +103,4 @@ ProjectCard.propTypes = {
 	classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(ProjectCard)
+export default withStyles(styles)(ProjectCard);

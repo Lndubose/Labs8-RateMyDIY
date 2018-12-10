@@ -1,9 +1,9 @@
 // Dependencies
 import React from 'react';
 import ModalImage from 'react-modal-image';
-import { Button } from 'reactstrap';
+// import { Button } from 'reactstrap';
 // Components
-import StarRatings from 'react-star-ratings';
+// import StarRatings from 'react-star-ratings';
 
 // Styles
 import styled from 'styled-components';
@@ -64,15 +64,31 @@ const OptionsContainer = styled.div`
 	color: rgb(42, 43, 45);
 `;
 
-const ReviewsLink = styled.a`
+const ReviewsLink = styled.button`
+	background: none;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	padding: 0;
 	margin-right: 8px;
 `;
 
-const EditLink = styled.a`
+const EditLink = styled.button`
+	background: none;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	padding: 0;
 	margin-right: 8px;
 `;
 
-const DeleteButton = styled.a``;
+const DeleteButton = styled.button`
+	background: none;
+	border: none;
+	outline: none;
+	cursor: pointer;
+	padding: 0;
+`;
 
 const Project = props => {
 	return (
@@ -100,27 +116,25 @@ const Project = props => {
 						src={props.project.img_url}
 					/>
 				</ImgContainer>
-				<Text>
-					{props.project.text}
-					{props.owner && (
-						<OptionsContainer>
-							<ReviewsLink disabled={props.disabled}>reviews</ReviewsLink>
-							<EditLink
-								onClick={() => props.willUpdateProject(true)}
-								disabled={props.disabled}
-							>
-								edit
-							</EditLink>
-							<DeleteButton
-								color="danger"
-								onClick={props.deleteHandler}
-								disabled={props.disabled}
-							>
-								delete
-							</DeleteButton>
-						</OptionsContainer>
-					)}
-				</Text>
+				<Text>{props.project.text}</Text>
+				{props.owner && (
+					<OptionsContainer>
+						<ReviewsLink disabled={props.disabled}>reviews</ReviewsLink>
+						<EditLink
+							onClick={() => props.willUpdateProject(true)}
+							disabled={props.disabled}
+						>
+							edit
+						</EditLink>
+						<DeleteButton
+							color="danger"
+							onClick={props.deleteHandler}
+							disabled={props.disabled}
+						>
+							delete
+						</DeleteButton>
+					</OptionsContainer>
+				)}
 			</ProjectContainer>
 		</ProjectWrapper>
 	);
