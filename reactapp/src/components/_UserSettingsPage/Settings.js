@@ -341,6 +341,7 @@ class UserSettings extends Component {
                 </Modal>
 
                 <button onClick={() => this.props.getThumbnail(`profile/${this.state.selectedFile ? `${this.state.selectedFile.name}` : null }`)}>Download</button>
+                <button onClick={() => (this.props.img_thumbnail ? this.props.getProfilePic(this.props.img_thumbnail) : null)}>Set Thumbnail</button>
                 </SettingsContainer>
 			</SettingsPageContainer>
 		);

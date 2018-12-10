@@ -63,12 +63,12 @@ const download = (prefix, callback) => {
       delete params.Prefix;
       params.Key = latestVersion;
       console.log('PARAMS', params);
-      s3.getSignedUrl('getObject', params, function(err, data) {
+      s3.getObject('getObject', params, function(err, data) {
         if (err) {
-          console.log('URL ERROR', err, err.stack);
+          console.log('FILE ERROR', err, err.stack);
           return err;
         } else {
-          console.log('URL DATA', data);
+          console.log('FILE DATA', data);
           callback(null, data);
         }
       });
