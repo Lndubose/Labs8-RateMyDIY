@@ -347,7 +347,7 @@ class UserSettings extends Component {
                 </div>
                 </Modal>
                 
-                <button onClick={() => this.props.getThumbnail(this.props.userInfo, 'profile')}>Download</button>
+                <button onClick={() => this.props.loggedIn(getThumbnail, 'profile')}>Download</button>
                 <button onClick={() => (this.props.profile_thumbnail ? this.props.getProfilePic(this.props.profile_thumbnail) : null)}>Set Thumbnail</button>
                 </SettingsContainer>
 			</SettingsPageContainer>
