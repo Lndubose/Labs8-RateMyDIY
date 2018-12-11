@@ -64,6 +64,7 @@ class MakerCard extends React.Component {
 					action={null}
 					title={
 						<a
+							style={{ fontSize: '2rem', background: 'none' }}
 							onClick={e => this.searchMaker(e, this.props.maker.username)}
 							href={`/search?query=${this.props.maker.username}`}
 						>

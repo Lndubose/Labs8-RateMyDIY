@@ -59,6 +59,7 @@ class ReviewerCard extends React.Component {
 					action={null}
 					title={
 						<a
+							style={{ fontSize: '2rem', background: 'none' }}
 							onClick={e =>
 								this.searchReviewer(e, this.props.reviewer.username)
 							}

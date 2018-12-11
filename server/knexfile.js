@@ -7,7 +7,9 @@ dotenv.load();
 
 // console.log(typeof JSON.parse(process.env.PG_SSL))
 
-pg.defaults.ssl = process.env.PG_SSL ? !!JSON.parse(String(process.env.PG_SSL)) : true;
+pg.defaults.ssl = process.env.PG_SSL
+	? !!JSON.parse(String(process.env.PG_SSL))
+	: true;
 
 const dbHost = process.env.DB_HOST;
 const dbUser = process.env.DB_USER;

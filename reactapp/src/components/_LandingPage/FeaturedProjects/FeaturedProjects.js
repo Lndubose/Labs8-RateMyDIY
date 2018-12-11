@@ -35,9 +35,8 @@ const FeaturedProjectTitle = styled.h1`
 	font-size: 18px;
 	width: 100%;
 	margin: 25px 50px 0px 50px;
-	color: ${props => props.theme.mui.palette.primary.dark}
-
-	@media (max-width: 500px) {
+	color: ${props => props.theme.mui.palette.primary.dark} @media
+		(max-width: 500px) {
 		width: 80%;
 		margin: 15px auto;
 		text-align: center;
@@ -51,13 +50,16 @@ class FeaturedProjects extends Component {
 	}
 
 	render() {
-
 		return (
 			<FeaturedProjectsWrapper>
 				<FeaturedProjectTitle>Featured Projects</FeaturedProjectTitle>
 				<FeaturedProjectListTiles>
 					{this.props.featuredProjects.map(project => (
-						<ProjectTile project={project} key={project.project_id} />
+						<ProjectTile
+							history={this.props.history}
+							project={project}
+							key={project.project_id}
+						/>
 					))}
 				</FeaturedProjectListTiles>
 			</FeaturedProjectsWrapper>
@@ -68,7 +70,7 @@ class FeaturedProjects extends Component {
 const mapStateToProps = state => ({
 	featuredProjects: state.landingPageReducer.featuredProjects,
 	gettingFeaturedProjects: state.landingPageReducer.fetchingFeaturedProjects,
-	featuredProjectsError: state.landingPageReducer.featuredProjectsError,
+	featuredProjectsError: state.landingPageReducer.featuredProjectsError
 });
 
 export default connect(

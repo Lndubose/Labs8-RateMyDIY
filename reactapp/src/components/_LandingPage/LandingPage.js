@@ -164,7 +164,7 @@ class LandingPage extends Component {
 						//  'hey please log in'
 						''
 					)}
-					<FeaturedProjects />
+					<FeaturedProjects history={this.props.history} />
 					<PopularMakers fetchSearchResults={this.searchClick} />
 					<PopularReviewers
 						getProjectsByReviewer={this.getProjectsByReviewer}

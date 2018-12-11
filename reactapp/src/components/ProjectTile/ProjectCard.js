@@ -11,14 +11,18 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import red from '@material-ui/core/colors/red';
 import StarRatings from 'react-star-ratings';
+import { Link } from 'react-router-dom';
 
 const styles = theme => ({
 	card: {
 		width: '300px',
 		margin: '25px',
 		marginBottom: '30px',
+		fontSize: '24px',
+		cursor: 'pointer',
 		'&:hover': {
-			backgroundColor: '0'
+			color: theme.palette.secondary.main,
+			boxShadow: '4px 4px 4px'
 		},
 		backgroundColor: theme.palette.secondary.light,
 		borderRadius: '35px',
@@ -36,14 +40,19 @@ const styles = theme => ({
 	}
 });
 
-const CardLink = styled.a`
+const StyledLink = styled(Link)`
 	text-decoration: none;
-	color:black &:hover {
+
+	&:hover {
 		text-decoration: none;
-		color: black;
+		backgounrd: none;
 	}
 `;
 
+const CardTitle = styled.h3`
+	fontsize: 2rem;
+`;
+const CardUsername = styled.p``;
 class ProjectCard extends React.Component {
 	state = { expanded: false };
 
@@ -53,15 +62,19 @@ class ProjectCard extends React.Component {
 
 	render() {
 		const { classes, theme } = this.props;
-		console.log(this.props.project);
-		console.log('THEME', theme);
 		return (
-			<CardLink
-				className="project-card"
-				href={`project/${this.props.project.project_id}`}
+			<StyledLink
+				style={{
+					textDecoration: 'none',
+					background: 'none',
+					outline: 'none',
+					'&hover': { background: 'none' }
+				}}
+				to={`/project/${this.props.project.project_id}`}
 			>
-				<Card style={{}} className={classes.card}>
+				<Card className={classes.card}>
 					<CardHeader
+						style={{ fontSize: '24px' }}
 						avatar={
 							<Avatar
 								src={this.props.project.maker_photo_url}
@@ -69,8 +82,22 @@ class ProjectCard extends React.Component {
 							/>
 						}
 						action={null}
-						title={this.props.project.project_name}
-						subheader={<div>{this.props.project.username} </div>}
+						title={
+							<CardTitle style={{ fontSize: '2rem' }}>
+								{this.props.project.project_name}
+							</CardTitle>
+						}
+						subheader={
+							<Link
+								style={{ fontSize: '1.5rem', background: 'none' }}
+								onClick={e => {
+									e.stopPropagation();
+								}}
+								to={`/search?query=${this.props.project.username}`}
+							>
+								{this.props.project.username}
+							</Link>
+						}
 					/>
 
 					<CardMedia
@@ -88,13 +115,16 @@ class ProjectCard extends React.Component {
 						/>
 					</CardContent>
 					<CardContent>
-						<Typography component="p">
-							[THIS IS THE PROJECT DESCRIPTION]
+						<Typography
+							style={{ fontSize: '1.5rem', background: 'none' }}
+							component="p"
+						>
+							{this.props.project.text}
 						</Typography>
 					</CardContent>
 					<CardActions className={classes.actions} disableActionSpacing />
 				</Card>
-			</CardLink>
+			</StyledLink>
 		);
 	}
 }

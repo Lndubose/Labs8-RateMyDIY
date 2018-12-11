@@ -8,7 +8,7 @@ import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import { withStyles } from '@material-ui/core/styles';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 
@@ -41,6 +41,10 @@ class DropDown extends React.Component {
 		}
 
 		this.setState({ open: false });
+	};
+
+	handleClick = target => {
+		//<Redirect />;
 	};
 
 	render() {
@@ -77,17 +81,23 @@ class DropDown extends React.Component {
 							<Paper>
 								<ClickAwayListener onClickAway={this.handleClose}>
 									<MenuList>
+										<Link to={`/ProjectList`}>
+											<MenuItem onClick={this.handleClose}>My Profile</MenuItem>
+										</Link>
+										<Link to={`/settings`}>
+											<MenuItem onClick={this.handleClose}>
+												Profile Settings
+											</MenuItem>
+										</Link>
+										<Link to={`/newproject`}>
+											<MenuItem onClick={this.handleClose}>
+												New Project
+											</MenuItem>
+										</Link>
 										<MenuItem onClick={this.handleClose}>
-											<Link to={`/ProjectList`}>My Profile</Link>
-										</MenuItem>
-										<MenuItem onClick={this.handleClose}>
-											<Link to={`/settings`}>Profile Settings</Link>
-										</MenuItem>
-										<MenuItem onClick={this.handleClose}>
-											<Link to={`/newproject`}>New Project</Link>
-										</MenuItem>
-										<MenuItem onClick={this.handleClose}>
-											<a href={logoutURL}>Signout</a>
+											<a style={{ color: 'red' }} href={logoutURL}>
+												Signout
+											</a>
 										</MenuItem>
 									</MenuList>
 								</ClickAwayListener>
