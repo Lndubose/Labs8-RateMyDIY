@@ -28,7 +28,7 @@ const upload = multer({
     // access control for the file (‘public read’ means that anyone can view files)
     // you can check all the available types here:
     // https://docs.aws.amazon.com/AmazonS3/latest/dev/acl-overview.html#canned-acl 
-    acl: 'public-read',
+    acl: 'bucket-owner-full-control',
     // key: function (req, file, cb) {
 		// 	cb(null, path.basename( file.originalname, path.extname( file.originalname ) ) + '-' + Date.now() + path.extname( file.originalname ) )
 		// },

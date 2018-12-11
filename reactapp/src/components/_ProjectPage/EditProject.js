@@ -154,7 +154,6 @@ class EditProject extends Component {
 	// Submit changes
 	submitHandler = event => {
 		event.preventDefault();
-
 		this.props.updateProject(
 			this.props.project.project_id,
 			{
