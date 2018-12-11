@@ -22,7 +22,7 @@ export const FETCH_PROJECTS_BY_REVIEWER_SUCCESS =
 export const FETCH_PROJECTS_BY_REVIEWER_ERROR =
 	'FETCH_PROJECTS_BY_REVIEWER_ERROR';
 
-export const fetchMyProjects = user_id => {
+export const fetchMyProjects = ({user_id}) => {
 	return dispatch => {
 		dispatch({ type: FETCH_MYPROJECT });
 		axios
@@ -41,7 +41,7 @@ export const fetchMyProjects = user_id => {
 	};
 };
 
-export const fetchMyReviews = user_id => {
+export const fetchMyReviews = ({user_id}) => {
 	return dispatch => {
 		dispatch({ type: FETCH_MYREVIEWS });
 		axios

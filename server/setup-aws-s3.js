@@ -65,7 +65,7 @@ const download = (prefix, callback) => {
         version: latestData.VersionId
       };
       console.log('LATEST VERSION', latestVersion);
-      callback(err, `https://s3.us-east-2.amazonaws.com/${params.Bucket}/${latestVersion.key}?versionId=${latestVersion.version}`);
+      callback(null, `https://s3.us-east-2.amazonaws.com/${params.Bucket}/${latestVersion.key}?versionId=${latestVersion.version}`);
       // delete params.Prefix;
       // params.Key = latestVersion.key;
       // console.log('PARAMS', params);

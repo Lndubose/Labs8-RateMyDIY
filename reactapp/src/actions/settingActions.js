@@ -67,21 +67,19 @@ export const getProfilePic = (img_url) => {
 	}
 }
 
-export const getThumbnail = (prefix) => {
+export const getThumbnail = ({img_url}, size) => {
 	return dispatch => {
 		dispatch({ type: GETTING_THUMBNAIL });
 
 		axios
 			.post(
-				(process.env.REACT_APP_BACKEND || `http://localhost:5000`) + `/api/projects/image-download`, { prefix: prefix }
+				(process.env.REACT_APP_BACKEND || `http://localhost:5000`) + `/api/projects/image-download`, { prefix: `${size}/${img_url.match(/[^/]*$/)[0].split('?')[0]}` }
+				
 			)
 
 			.then(({data}) => {
-				console.log('thumbnail data', data);
-				dispatch({ type: GOT_THUMBNAIL, payload: data });
+				dispatch({ type: GOT_THUMBNAIL, payload: {data, size} });
 			})
-
-			.then(() => dispatch(loggedIn()))
 
             .catch(error => {
                 console.log('thumbnail error', error);

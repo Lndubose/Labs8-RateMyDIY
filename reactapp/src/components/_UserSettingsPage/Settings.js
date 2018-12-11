@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
-import { getUsername, getProfilePic, getThumbnail } from '../../actions/settingActions';
+import { getUsername, getProfilePic, getThumbnail, loggedIn } from '../../actions';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -195,8 +195,15 @@ class UserSettings extends Component {
 	state = {
 		username: '',
 		img_url: null,
-		open: false
-	};
+        open: false,
+        thumbnail: null
+    };
+    
+    componentDidMount() {
+        this.props.loggedIn(getThumbnail, 'tile')
+        // `tile/${this.props.userInfo.img_url.match(/[^/]*$/)[0].split('?')[0]}`
+        
+    }
 
 	handleOpen = () => {
 		this.setState({ open: true });
@@ -296,7 +303,7 @@ class UserSettings extends Component {
 				<Nav />
                 <SettingsContainer>
 				<ProfileImgHolder>
-                    <ProfileImg src={this.props.userInfo.img_url.includes('amazonaws') ? (this.props.getThumbnail(`tile/${this.props.userInfo.img_url.match(/[^/]*$/)[0]}`)) : this.props.userInfo.img_url } />
+                    <ProfileImg src={this.props.tile_thumbnail} />
                 </ProfileImgHolder>
 				<ProfileForm>
                     <div>
@@ -339,9 +346,9 @@ class UserSettings extends Component {
                     <Twillio />
                 </div>
                 </Modal>
-
-                <button onClick={() => this.props.getThumbnail(`profile/${this.state.selectedFile ? `${this.state.selectedFile.name}` : null }`)}>Download</button>
-                <button onClick={() => (this.props.img_thumbnail ? this.props.getProfilePic(this.props.img_thumbnail) : null)}>Set Thumbnail</button>
+                
+                <button onClick={() => this.props.getThumbnail(this.props.userInfo, 'profile')}>Download</button>
+                <button onClick={() => (this.props.profile_thumbnail ? this.props.getProfilePic(this.props.profile_thumbnail) : null)}>Set Thumbnail</button>
                 </SettingsContainer>
 			</SettingsPageContainer>
 		);
@@ -360,9 +367,10 @@ const mapStateToProps = state => ({
 	img_url: state.settingsReducer.img_url,
     profilepic_error: state.settingsReducer.profilepic_error,
     gettingThumbnail: state.settingsReducer.gettingThumbnail,
-    img_thumbnail: state.settingsReducer.img_thumbnail,
+    profile_thumbnail: state.settingsReducer.profile_thumbnail,
+    tile_thumbnail: state.settingsReducer.tile_thumbnail,
     thumbnail_error: state.settingsReducer.thumbnail_error,
 	userInfo: state.loggedInReducer.userInfo
 });
 
-export default compose(connect(mapStateToProps, { getUsername, getProfilePic, getThumbnail }), withStyles(styles))(UserSettings);
+export default compose(connect(mapStateToProps, { getUsername, getProfilePic, getThumbnail, loggedIn }), withStyles(styles))(UserSettings);

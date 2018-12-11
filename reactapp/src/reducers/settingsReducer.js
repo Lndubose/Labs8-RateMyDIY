@@ -18,7 +18,8 @@ const initialState = {
   img_url: null,
   profilepic_error: null,
   gettingThumbnail: false,
-  img_thumbnail: null,
+  profile_thumbnail: null,
+  tile_thumbnail: null,
   thumbnail_error: null
 };
 
@@ -68,7 +69,7 @@ const settingsReducer = (state = initialState, action) => {
       return {
         ...state, 
         gettingThumbnail: false,
-        img_thumbnail: action.payload,
+        [`${action.payload.size}_thumbnail`]: action.payload.data
       }
 
     case GET_THUMBNAIL_ERROR:

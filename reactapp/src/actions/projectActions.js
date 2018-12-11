@@ -67,7 +67,7 @@ export const getProjectLite = (project_id, callback) => {
 
 // todo: Refactor this mess. These are leftovers from the old setup.
 // get project, then reviewId
-export const project_ReviewId_Chain = (user_id, project_id) => {
+export const project_ReviewId_Chain = ({user_id}, project_id) => {
 	return dispatch => {
 		dispatch({ type: GETTING_PROJECT });
 

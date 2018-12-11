@@ -22,7 +22,7 @@ export const loggedIn = (nextAction, args) => {
 			})
 			.then(userInfo => {
 				if (nextAction) {
-					dispatch(nextAction(userInfo.user_id, args));
+					dispatch(nextAction(userInfo, args));
 				}
 			})
 
