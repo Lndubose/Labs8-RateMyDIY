@@ -101,7 +101,6 @@ class ProjectCard extends React.Component {
 							</Link>
 						}
 					/>
-
 					<CardMedia
 						className={classes.media}
 						image={this.props.project.img_url}
