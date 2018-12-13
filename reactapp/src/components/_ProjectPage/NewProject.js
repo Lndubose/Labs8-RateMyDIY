@@ -161,236 +161,245 @@ const ProjectButtonContainer = styled.div`
 `;
 
 class NewProject extends Component {
+  state = {
+    project_name: '',
+    img_url: null,
+    text: '',
+    categories: [],
+    imagePreviewUrl: ''
+  };
 
-	state = {
-		project_name: '',
-		img_url: null,
-		text: '',
-		categories: []
-	};
+  singleFileChangedHandler = event => {
+    this.setState({
+      selectedFile: event.target.files[0]
+    });
+    let reader = new FileReader();
+    let file = event.target.files[0];
 
-	singleFileChangedHandler = event => {
-		this.setState({
-			selectedFile: event.target.files[0]
-		});
-	};
+    reader.onloadend = () => {
+      this.setState({
+        file: file,
+        imagePreviewUrl: reader.result
+      });
+    };
 
-	singleFileUploadHandler = event => {
-		event.preventDefault();
-		const data = new FormData();
-		// If file selected
-		if (this.state.selectedFile) {
-			data.append(
-				'image',
-				this.state.selectedFile,
-				this.state.selectedFile.name
-			);
-			axios
-				.post(
-					(process.env.REACT_APP_BACKEND || 'http://localhost:5000') +
-						`/api/projects/image-upload`,
-					data,
-					{
-						onUploadProgress: progressEvent => {
-							console.log(
-								'Upload Progress:' +
-									Math.round(
-										(progressEvent.loaded / progressEvent.total) * 100
-									) +
-									'%'
-							);
-						}
-					},
-					{
-						headers: {
-							accept: 'application/json',
-							'Accept-Language': 'en-US,en;q=0.8',
-							'Content-Type': `multipart/form-data; boundary=${data._boundary}`
-						}
-					}
-				)
-				.then(response => {
-					if (200 === response.status) {
-						// If file size is larger than expected.
-						if (response.data.error) {
-							if ('LIMIT_FILE_SIZE' === response.data.error.code) {
-								// this.ocShowAlert("Max size: 2MB", "red");
-							} else {
-								console.log(response.data.location);
-								// If not the given file type
-								// this.ocShowAlert(response.data.error, "red");
-								console.log(response.data.path);
-							}
-						} else {
-							// Success
-							let fileName = response.data;
+    reader.readAsDataURL(file);
+  };
 
-							let photo = response.data.location;
-							this.setState({
-								img_url: photo
-							});
-							console.log('filedata', fileName);
+  singleFileUploadHandler() {
+    const data = new FormData();
+    // If file selected
+    if (this.state.selectedFile) {
+      data.append(
+        'image',
+        this.state.selectedFile,
+        this.state.selectedFile.name
+      );
+      axios
+        .post(
+          (process.env.REACT_APP_BACKEND || 'http://localhost:5000') +
+            `/api/projects/image-upload`,
+          data,
+          {
+            onUploadProgress: progressEvent => {
+              console.log(
+                'Upload Progress:' +
+                  Math.round(
+                    (progressEvent.loaded / progressEvent.total) * 100
+                  ) +
+                  '%'
+              );
+            }
+          },
+          {
+            headers: {
+              accept: 'application/json',
+              'Accept-Language': 'en-US,en;q=0.8',
+              'Content-Type': `multipart/form-data; boundary=${data._boundary}`
+            }
+          }
+        )
+        .then(response => {
+          if (200 === response.status) {
+            // If file size is larger than expected.
+            if (response.data.error) {
+              if ('LIMIT_FILE_SIZE' === response.data.error.code) {
+                // this.ocShowAlert("Max size: 2MB", "red");
+              } else {
+                console.log(response.data.location);
+                // If not the given file type
+                // this.ocShowAlert(response.data.error, "red");
+                console.log(response.data.path);
+              }
+            } else {
+              // Success
+              let fileName = response.data;
 
-							console.log('photo', photo);
+              let photo = response.data.location;
+              this.setState({
+                img_url: photo
+              });
+              console.log('filedata', fileName);
 
-							//   this.ocShowAlert("File Uploaded", "#3089cf");
-						}
-					} else {
-						console.log('error');
-					}
-				})
-				.catch(error => {
-					// If another error
-					console.log('error');
-				});
-		}
-	};
-	// Keep form data in the state
-	changeHandler = event => {
-		this.setState({ [event.target.name]: event.target.value });
-	};
+              console.log('photo', photo);
 
-	// Submit new project
-	submitHandler = event => {
-		event.preventDefault();
+              //   this.ocShowAlert("File Uploaded", "#3089cf");
+            }
+          } else {
+            console.log('error');
+          }
+        })
+        .catch(error => {
+          // If another error
+          console.log('error');
+        });
+    }
+  }
+  // Keep form data in the state
+  changeHandler = event => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
 
-		this.props.addProject(
-			{
-				user_id: this.props.userInfo.user_id,
-				project_name: this.state.project_name,
-				img_url: this.state.img_url,
-				text: this.state.text,
-				categories: this.state.categories
-			},
-			url => this.setState({ redirect: url })
-		);
-	};
+  // Submit new project
+  submitHandler = event => {
+    event.preventDefault();
+    this.singleFileUploadHandler();
+    setTimeout(
+      function() {
+        this.props.addProject(
+          {
+            user_id: this.props.userInfo.user_id,
+            project_name: this.state.project_name,
+            img_url: this.state.img_url,
+            text: this.state.text,
+            categories: this.state.categories
+          },
+          url => this.setState({ redirect: url })
+        );
+      }.bind(this),
+      1000
+    );
+  };
 
-	// Cancel new project (with confirmation prompt)
-	cancelHandler = event => {
-		event.preventDefault();
+  // Cancel new project (with confirmation prompt)
+  cancelHandler = event => {
+    event.preventDefault();
 
-		if (this.state.project_name || this.state.img_url || this.state.text) {
-			this.setState({
-				confirm: {
-					text: ['Do you want to discard these changes?'],
-					cancel: event => {
-						event.preventDefault();
-						this.setState({ confirm: undefined });
-					},
-					submit: event => {
-						event.preventDefault();
-						this.setState({ redirect: '/' });
-					}
-				}
-			});
-		} else {
-			this.setState({ redirect: '/' });
-		}
-	};
+    if (this.state.project_name || this.state.img_url || this.state.text) {
+      this.setState({
+        confirm: {
+          text: ['Do you want to discard these changes?'],
+          cancel: event => {
+            event.preventDefault();
+            this.setState({ confirm: undefined });
+          },
+          submit: event => {
+            event.preventDefault();
+            this.setState({ redirect: '/' });
+          }
+        }
+      });
+    } else {
+      this.setState({ redirect: '/' });
+    }
+  };
 
-	render() {
-		return (
-			<NewProjectBody>
-				<NewProjectHeader>
-					<Header history={this.props.history} />
-				</NewProjectHeader>
-				<NewProjectContainer>
-					{this.state.redirect && <Redirect push to={this.state.redirect} />}
-					<ProjectForm onSubmit={this.submitHandler}>
-						Project title:
-						<ProjectHeader>
-							<ProjectNameInput
-								name="project_name"
-								type="text"
-								placeholder="Project title"
-								value={this.state.project_name}
-								onChange={this.changeHandler}
-								autoFocus
-								required
-							/>
-						</ProjectHeader>
-						<Img
-							src={
-								this.state.img_url ||
-								'https://sanitationsolutions.net/wp-content/uploads/2015/05/empty-image.png'
-							}
-							alt={
-								this.state.img_url ||
-								'https://sanitationsolutions.net/wp-content/uploads/2015/05/empty-image.png'
-							}
-						/>
-						<ProjectImage
-							type="file"
-							id="myuniqueid"
-							onChange={this.singleFileChangedHandler}
-							disabled={this.props.addingProject}
-						/>
-						<ProjectImageFlex>
-							<label for="myuniqueid">
-								<ProjectImageFile>
-									<ImageFileUpload>
-										<svg
-											xmlns="http://www.w3.org/2000/svg"
-											width="20"
-											height="17"
-											viewBox="0 0 20 17"
-										>
-											<path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z" />
-										</svg>
-									</ImageFileUpload>
-									<h1>Choose an image...</h1>
-								</ProjectImageFile>
-							</label>
-							<ProjectImageUpload
-								onClick={this.singleFileUploadHandler}
-								disabled={this.props.addingProject}
-							>
-								Upload Image!
-							</ProjectImageUpload>
-						</ProjectImageFlex>
-						{this.state.selectedFile ? (
-							<ProfileHeader>{this.state.selectedFile.name}</ProfileHeader>
-						) : null}
-						Project description:
-						<TextInput
-							className="TextInput"
-							name="text"
-							type="text"
-							placeholder="Project description"
-							value={this.state.text}
-							onChange={this.changeHandler}
-							required
-						/>
-						<ProjectButtonContainer>
-							<CancelButton
-								onClick={this.cancelHandler}
-								disabled={this.props.addingProject}
-							>
-								Cancel Project
-							</CancelButton>
-							<SubmitInput
-								type="submit"
-								value="Add New Project"
-								disabled={this.props.addingProject}
-							/>
-						</ProjectButtonContainer>
-						{this.props.addingProject && (
-							<StatusMessage small>Adding new project...</StatusMessage>
-						)}
-						{this.props.addingProjectError && (
-							<StatusMessage small error>
-								{this.props.addingProjectError}
-							</StatusMessage>
-						)}
-					</ProjectForm>
+  render() {
+    let {imagePreviewUrl} = this.state;
+    return (
+      <NewProjectBody>
+        <NewProjectHeader>
+          <Header />
+        </NewProjectHeader>
+        <NewProjectContainer>
+          {this.state.redirect && <Redirect push to={this.state.redirect} />}
+          <ProjectForm onSubmit={this.submitHandler}>
+            Project title:
+            <ProjectHeader>
+              <ProjectNameInput
+                name="project_name"
+                type="text"
+                placeholder="Project title"
+                value={this.state.project_name}
+                onChange={this.changeHandler}
+                autoFocus
+                required
+              />
+            </ProjectHeader>
+            <Img
+              src={
+                imagePreviewUrl ||
+                'https://sanitationsolutions.net/wp-content/uploads/2015/05/empty-image.png'
+              }
+              alt={
+                imagePreviewUrl ||
+                'https://sanitationsolutions.net/wp-content/uploads/2015/05/empty-image.png'
+              }
+            />
+            <ProjectImage
+              type="file"
+              id="myuniqueid"
+              onChange={this.singleFileChangedHandler}
+              disabled={this.props.addingProject}
+            />
+            <ProjectImageFlex>
+              <label for="myuniqueid">
+                <ProjectImageFile>
+                  <ImageFileUpload>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="17"
+                      viewBox="0 0 20 17"
+                    >
+                      <path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z" />
+                    </svg>
+                  </ImageFileUpload>
+                  <h1>Choose an image...</h1>
+                </ProjectImageFile>
+              </label>
+            </ProjectImageFlex>
+            {this.state.selectedFile ? (
+              <ProfileHeader>{this.state.selectedFile.name}</ProfileHeader>
+            ) : null}
+            Project description:
+            <TextInput
+              className="TextInput"
+              name="text"
+              type="text"
+              placeholder="Project description"
+              value={this.state.text}
+              onChange={this.changeHandler}
+              required
+            />
+            <ProjectButtonContainer>
+              <CancelButton
+                onClick={this.cancelHandler}
+                disabled={this.props.addingProject}
+              >
+                Cancel Project
+              </CancelButton>
+              <SubmitInput
+                type="submit"
+                value="Add New Project"
+                disabled={this.props.addingProject}
+              />
+            </ProjectButtonContainer>
+            {this.props.addingProject && (
+              <StatusMessage small>Adding new project...</StatusMessage>
+            )}
+            {this.props.addingProjectError && (
+              <StatusMessage small error>
+                {this.props.addingProjectError}
+              </StatusMessage>
+            )}
+          </ProjectForm>
 
-					{this.state.confirm && <ConfirmModal confirm={this.state.confirm} />}
-				</NewProjectContainer>
-			</NewProjectBody>
-		);
-	}
-
+          {this.state.confirm && <ConfirmModal confirm={this.state.confirm} />}
+        </NewProjectContainer>
+      </NewProjectBody>
+    );
+  }
 }
 
 const mapStateToProps = state => {
@@ -403,10 +412,8 @@ const mapStateToProps = state => {
 };
 
 export default connect(
-
-	mapStateToProps,
-	{
-		addProject
-	}
-
+  mapStateToProps,
+  {
+    addProject
+  }
 )(NewProject);
