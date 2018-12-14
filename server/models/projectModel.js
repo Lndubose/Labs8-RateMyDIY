@@ -12,11 +12,20 @@ module.exports = {
 function getProject(project_id) {
 	return db('projects')
 		.where({ project_id })
+		.join('users', 'users.user_id', 'projects.user_id')
+		.select(
+			'projects.project_id',
+			'projects.project_name',
+			'projects.project_rating',
+			'projects.img_url',
+			'projects.text',
+			'users.user_id',
+			'users.username',
+			'users.img_url as user_img'
+		)
 		.first()
 		.then(project => {
 			if (project) {
-				// strip rating_sum and rating_count
-				const { rating_sum, rating_count, ...projectLite } = project;
 				return (
 					db('project_categories')
 						.where({ project_id })
@@ -27,40 +36,40 @@ function getProject(project_id) {
 						)
 						// strip project_id
 						.select('categories.category_id', 'categories.category_name')
-						.then(categories => ({ ...projectLite, categories }))
-						.then(projectWithCategories => {
+						.then(categories => {
 							return (
 								db('posts')
 									.where({ project_id })
 									// strip project_id
 									.select('post_id', 'img_url', 'text')
-									.then(
-										posts => {
-											return db('reviews')
-												.where({ project_id })
-												.select(
-													'review_id',
-													'user_id',
-													'rating',
-													'img_url',
-													'text',
-													'likes',
-													'dislikes',
-													'helpfulness'
-												)
-												.then(reviews => ({
-													...projectWithCategories,
-													posts,
-													reviews
-												}));
-										}
-										//({ ...projectWithCategories, posts })
-									)
+
+									// .then(
+									// 	posts => {
+									// 		return db('reviews')
+									// 			.where({ project_id })
+									// 			.select(
+									// 				'review_id',
+									// 				'user_id',
+									// 				'rating',
+									// 				'img_url',
+									// 				'text',
+									// 				'likes',
+									// 				'dislikes',
+									// 				'helpfulness'
+									// 			)
+									// 			.then(reviews => ({
+									// 				...projectWithCategories,
+									// 				posts,
+									// 				reviews
+									// 			}));
+									// 	})
+									.then(posts => ({ ...project, categories, posts }))
 							);
 						})
 				);
 			} else return undefined;
-		});
+		})
+		.catch(error => console.log(`getProject Error:`, error));
 }
 
 function getReviewsByProjectID(project_id, user_id) {
