@@ -24,6 +24,8 @@ export const DELETE_REVIEW_ERROR = 'DELETE_REVIEW_ERROR';
 export const LIKING_REVIEW = 'LIKING_REVIEW';
 export const LIKED_REVIEW = 'LIKED_REVIEW';
 export const LIKE_REVIEW_ERROR = 'LIKE_REVIEW_ERROR';
+// Update projectReducer.reviews
+export const LIKED_PROJECT_REVIEW = 'LIKED_PROJECT_REVIEW';
 
 // Loading message tester
 // function sleep(ms) {
@@ -161,6 +163,10 @@ export const likeReview = ({ user_id, review_id, like }) => {
 			.then(async ({ data }) => {
 				// await sleep(500);
 				dispatch({ type: LIKED_REVIEW, payload: data });
+				dispatch({
+					type: LIKED_PROJECT_REVIEW,
+					payload: { review_id, like: data }
+				});
 			})
 
 			.catch(error => dispatch({ type: LIKE_REVIEW_ERROR, payload: error }));
