@@ -27,11 +27,23 @@ const styles = theme => ({
 		backgroundColor: theme.palette.secondary.light,
 		// borderRadius: '35px',
 		color: theme.palette.secondary.main,
+
+		['@media (max-width: 1000px)']: {
+			width: '47%',
+			// margin: '25px 25px 25px 0px'
+			marginLeft: '2%'
+		},
+
 		['@media (max-width: 500px)']: {
 			width: '90%',
 			// margin: '25px 25px 25px 0px'
 			margin: '25px auto 30px'
 		}
+
+		// [theme.breakpoints.down('1000px')]: {
+		// 	width: '44%',
+		// 	marginLeft: '4%'
+		// }
 	},
 	media: {
 		height: 0,
@@ -41,7 +53,7 @@ const styles = theme => ({
 		display: 'flex'
 	},
 	avatar: {
-		backgroundColor: red[500],
+		backgroundColor: red[500]
 	}
 });
 
