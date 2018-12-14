@@ -15,10 +15,16 @@ const Container = styled.div`
 	}
 `;
 
-const SuggestedCategories = styled(Link)`
-	font-size: 14px;
+const SuggestedSpan = styled.span`
+	font-size: 1.5rem;
 	color: white;
-	margin: 0 3px;
+	margin: -4px 3px 0 0;
+`;
+
+const SuggestedCategories = styled(Link)`
+	font-size: 1.5rem;
+	color: white;
+	margin: -4px 4px 0;
 
 	&:hover {
 		background-color: transparent;
@@ -30,7 +36,7 @@ const SuggestedCategories = styled(Link)`
 const SearchTags = props => {
 	return (
 		<Container>
-			<span>Suggested:</span>{' '}
+			<SuggestedSpan>Suggested:</SuggestedSpan>
 			{props.tags.map((tag, index) => (
 				<SuggestedCategories to={`/search?query=${tag}`} key={tag}>
 					{tag}

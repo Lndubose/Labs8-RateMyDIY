@@ -18,9 +18,21 @@ import styled from 'styled-components';
 import arrowDown from '../../../assets/images/arrow-down.png';
 
 const Signout = styled.a`
-	/* &:hover {
-		color: red;
-	} */
+	color: rgba(0, 0, 0, 0.87);
+
+	&:hover {
+		color: #e60000;
+		text-decoration: none;
+	}
+`;
+
+const MenuLink = styled(Link)`
+	color: rgba(0, 0, 0, 0.87);
+
+	&:hover {
+		color: #0073e6;
+		text-decoration: none;
+	}
 `;
 
 const logoutURL =
@@ -102,37 +114,53 @@ class DropDown extends React.Component {
 									placement === 'bottom' ? 'right top' : 'center bottom'
 							}}
 						>
-							<Paper style={{ marginRight: '42px' }}>
+							<Paper style={{ marginRight: '55px' }}>
 								<ClickAwayListener onClickAway={this.handleClose}>
 									<MenuList>
-										<Link to={`/ProjectList`}>
+										<MenuLink to={`/ProjectList`}>
 											<MenuItem
 												onClick={this.handleClose}
-												style={{ fontSize: '1.4rem' }}
+												style={{
+													fontSize: '1.6rem',
+													color: 'inherit',
+													textDecoration: 'inherit'
+												}}
 											>
 												My Profile
 											</MenuItem>
-										</Link>
-										<Link to={`/settings`}>
+										</MenuLink>
+										<MenuLink to={`/settings`}>
 											<MenuItem
 												onClick={this.handleClose}
-												style={{ fontSize: '1.4rem' }}
+												style={{
+													fontSize: '1.6rem',
+													color: 'inherit',
+													textDecoration: 'inherit'
+												}}
 											>
 												Profile Settings
 											</MenuItem>
-										</Link>
-										<Link to={`/newproject`}>
+										</MenuLink>
+										<MenuLink to={`/newproject`}>
 											<MenuItem
 												onClick={this.handleClose}
-												style={{ fontSize: '1.4rem' }}
+												style={{
+													fontSize: '1.6rem',
+													color: 'inherit',
+													textDecoration: 'inherit'
+												}}
 											>
 												New Project
 											</MenuItem>
-										</Link>
+										</MenuLink>
 										<Signout href={logoutURL}>
 											<MenuItem
 												onClick={this.handleClose}
-												style={{ fontSize: '1.4rem' }}
+												style={{
+													fontSize: '1.6rem',
+													color: 'inherit',
+													textDecoration: 'inherit'
+												}}
 											>
 												Signout
 											</MenuItem>

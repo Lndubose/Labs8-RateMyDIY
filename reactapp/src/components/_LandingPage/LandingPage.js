@@ -9,6 +9,9 @@ import {
 } from '../../actions/index';
 import { connect } from 'react-redux';
 import MenuDrawer from '../MenuDrawer/MenuDrawer';
+import { Link } from 'react-router-dom';
+
+import plusIcon from '../../assets/images/plus-icon.svg';
 
 // ReactStrap
 // import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
@@ -34,12 +37,17 @@ const LandingPageContentWrapper = styled.div`
 	margin: 30px auto;
 	max-width: 1000px;
 	background-color: ${props => props.theme.mui.palette.primary.main};
+
+	@media (max-width: 1000px) {
+		max-width: 700px;
+		/* margin: 30px 2%; */
+	}
 `;
 const LandingPageWrapper = styled.div`
 	width: 100%;
 	background-color: ${props => props.theme.mui.palette.primary.main};
 
-	@media (max-width: 500px) {
+	@media (max-width: 680px) {
 		width: 100vw;
 	}
 `;
@@ -76,6 +84,27 @@ const HeroTitle = styled.h1`
 	font-size: 32px;
 	margin-bottom: 30px;
 `;
+
+const NewProjectLink = styled(Link)`
+	display: flex;
+	align-items: center;
+	position: absolute;
+	top: 21px;
+	left: 24px;
+	/* top: 355px;
+	left: 50%;
+	transform: translate(-50%, -50%); */
+	height: 30px;
+	font-size: 2rem;
+	color: white;
+
+	&:hover {
+		text-decoration: none;
+		color: white;
+		background: none;
+	}
+`;
+
 class LandingPage extends Component {
 	constructor() {
 		super();
@@ -147,6 +176,12 @@ class LandingPage extends Component {
 				<ScrollToTopOnMount />
 				<HeroImageContainer>
 					{window.innerWidth <= 500 ? <MenuDrawer /> : <Nav />}
+
+					<NewProjectLink to={`/newproject`}>
+						<img src={plusIcon} style={{ width: '30px', height: '30px' }} />
+						<p style={{ margin: '1px 0 0 6px' }}>Submit a new project</p>
+					</NewProjectLink>
+
 					<HeroSearchContainer>
 						<HeroTitle>Find a project to build or review</HeroTitle>
 						<SearchBar

@@ -13,11 +13,13 @@ import {
 	DELETE_PROJECT_ERROR,
 	GETTING_PROJECT_REVIEWS,
 	GOT_PROJECT_REVIEWS,
-	GET_PROJECT_REVIEWS_ERROR
+	GET_PROJECT_REVIEWS_ERROR,
+	LIKED_PROJECT_REVIEW
 } from '../actions';
 
 const initialState = {
-	project: {}
+	project: {},
+	reviews: []
 
 	// gettingProjects: false,
 	// gettingProjectsError: null,
@@ -124,6 +126,18 @@ const projectReducer = (state = initialState, action) => {
 				...state,
 				gettingProjectReviews: false,
 				gettingProjectReviewsError: `${action.payload}`
+			};
+
+		case LIKED_PROJECT_REVIEW:
+			return {
+				...state,
+				reviews: state.reviews[0]
+					? state.reviews.map(review =>
+							review.review_id === action.payload.review_id
+								? { ...review, like: action.payload.like }
+								: review
+					  )
+					: []
 			};
 
 		default:

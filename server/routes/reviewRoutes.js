@@ -12,7 +12,6 @@ router.get('/:review_id/:user_id', function(req, res, next) {
 
 	db.getReview(review_id, user_id)
 		.then(review => {
-			console.log(`Response from reviewModel:`, { review });
 			if (review) {
 				res.status(200).json(review);
 			} else {

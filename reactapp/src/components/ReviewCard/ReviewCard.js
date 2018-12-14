@@ -68,21 +68,21 @@ const ViewReview = styled.div`
 
 const Like = styled.img`
 	position: relative;
-	bottom: 18px;
-	left: 82%;
-	height: 30px;
+	bottom: 20px;
+	left: 84.5%;
+	height: 28px;
 	width: 24px;
-	padding-bottom: 6px;
+	padding: 0 0 4px;
 	cursor: pointer;
 `;
 
 const Dislike = styled.img`
 	position: relative;
-	bottom: 18px;
-	left: 85%;
-	height: 30px;
+	bottom: 20px;
+	left: 84.5%;
+	height: 28px;
 	width: 24px;
-	padding: 5px 0 1px;
+	padding: 3px 0 1px;
 	cursor: pointer;
 `;
 
@@ -146,7 +146,8 @@ class ReviewCard extends React.Component {
 							rating={Math.round(this.props.review.rating)}
 							starDimension="19px"
 							starSpacing="1px"
-							starRatedColor="e68a00" //change this for reviews
+							// starRatedColor="e68a00" // yellow
+							starRatedColor="#cc0000"
 							starEmptyColor="#bfbfbf"
 						/>
 					</CardContent>
@@ -170,7 +171,6 @@ class ReviewCard extends React.Component {
 					<Typography
 						style={{
 							fontSize: '1.4rem',
-							color: '#263842',
 							background: 'none',
 							height: '40px'
 						}}
