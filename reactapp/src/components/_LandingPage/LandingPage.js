@@ -89,7 +89,7 @@ const NewProjectLink = styled(Link)`
 	display: flex;
 	align-items: center;
 	position: absolute;
-	top: 25px;
+	top: 21px;
 	left: 24px;
 	/* top: 355px;
 	left: 50%;
