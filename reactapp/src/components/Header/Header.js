@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { fetchSearchResults, fetchCategoryResults } from '../../actions';
@@ -82,8 +82,8 @@ class Header extends React.Component {
 							searchTerm={this.state.searchTerm}
 						/>
 					</HeaderSearchContainer>
-					
-					{window.innerWidth <= 500 ? <MenuDrawer sidebar profile /> : <Nav /> }
+
+					{window.innerWidth <= 500 ? <MenuDrawer sidebar profile /> : <Nav />}
 				</HeaderContainerWraper>
 			</HeaderContainer>
 		);
