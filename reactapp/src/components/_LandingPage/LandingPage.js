@@ -190,10 +190,6 @@ class LandingPage extends Component {
 						/>
 						<SearchTags tags={['carpentry', 'home', 'garden', 'tech']} />
 					</HeroSearchContainer>
-					<NewProjectLink to={`/newproject`}>
-						<img src={plusIcon} style={{ width: '30px', height: '30px' }} />
-						<p style={{ margin: '1px 0 0 6px' }}>Share a new project</p>
-					</NewProjectLink>
 				</HeroImageContainer>
 				<LandingPageContentWrapper>
 					{this.state.toggleLogInPopUp ? (
