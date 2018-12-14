@@ -209,6 +209,11 @@ class NewProject extends Component {
     imagePreviewUrl: ''
   };
 
+  handleSelect = categories => {
+		this.setState({ categories });
+		console.log(`Option selected:`, categories);
+  };
+  
   singleFileChangedHandler = event => {
     this.setState({
       selectedFile: event.target.files[0]
@@ -415,9 +420,6 @@ class NewProject extends Component {
                 </ProjectImageFile>
               </label>
             </ProjectImageFlex>
-            {this.state.selectedFile ? (
-              <ProfileHeader>{this.state.selectedFile.name}</ProfileHeader>
-            ) : null}
             Project description:
             <TextArea
 							name="text"
