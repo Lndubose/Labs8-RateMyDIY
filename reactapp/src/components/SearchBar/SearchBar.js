@@ -2,6 +2,8 @@ import React from 'react';
 // import { Link } from "react-router-dom";
 import styled from 'styled-components';
 
+import magnifier from '../../assets/images/magnifier.png';
+
 //Apply styles
 const SearchBarWrapper = styled.form`
 	display: flex;
@@ -61,7 +63,7 @@ const SearchBar = props => {
 				className="search-button"
 			>
 				<img
-					src="https://cdn4.iconfinder.com/data/icons/kripto-black-2/512/kripto-search-b.png"
+					src={magnifier}
 					alt="Search icon"
 					style={{ width: '20px', height: '20px' }}
 				/>

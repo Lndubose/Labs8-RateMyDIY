@@ -15,6 +15,8 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 
+import magnifier from '../../assets/images/magnifier.png';
+
 const loginURL =
 	(process.env.REACT_APP_BACKEND || `http://localhost:5000`) + `/signin`;
 
@@ -37,11 +39,11 @@ const styles = {
 		height: '40px',
 		borderRadius: '50%',
 		position: 'absolute',
-		top: 0,  
-		bottom: 0,  
-		left: 0,  
-		right: 0,  
-		margin: 'auto',
+		top: 0,
+		bottom: 0,
+		left: 0,
+		right: 0,
+		margin: 'auto'
 	},
 	arrow: {
 		width: '20px',
@@ -97,7 +99,9 @@ class MenuDrawer extends React.Component {
 					<div className={classes.fullList}>
 						<List>
 							<ListItem className={classes.center}>
-								<Link exact='true' to="/">Home</Link>
+								<Link exact="true" to="/">
+									Home
+								</Link>
 							</ListItem>
 							<ListItem className={classes.center}>
 								<Link to="/search">Search</Link>
@@ -125,19 +129,13 @@ class MenuDrawer extends React.Component {
 					<div className={classes.fullList}>
 						<List>
 							<ListItem className={classes.center}>
-								<Link to={`/ProjectList`}>
-									My Profile
-								</Link>
+								<Link to={`/ProjectList`}>My Profile</Link>
 							</ListItem>
 							<ListItem className={classes.center}>
-								<Link to={`/settings`}>
-									Profile Settings
-								</Link>
+								<Link to={`/settings`}>Profile Settings</Link>
 							</ListItem>
 							<ListItem className={classes.center}>
-								<Link to={`/newproject`}>
-									New Project
-								</Link>
+								<Link to={`/newproject`}>New Project</Link>
 							</ListItem>
 							<ListItem className={classes.center}>
 								<a href={logoutURL}>Signout</a>
@@ -155,21 +153,17 @@ class MenuDrawer extends React.Component {
 						onClick={this.toggleDrawer('top', true)}
 						style={styles.center}
 					>
-						{this.props.profile ? 
-						<ImgContainer>
-							<img
-							src={this.props.userInfo.img_url}
-							alt=""
-							className={classes.profile}
-							/>
-						</ImgContainer>
-						:
-						<img
-							src='https://cdn2.iconfinder.com/data/icons/lightly-icons/30/chevron-down-480.png'
-							alt=""
-							className={classes.arrow}
-							/>
-						}
+						{this.props.profile ? (
+							<ImgContainer>
+								<img
+									src={this.props.userInfo.img_url}
+									alt=""
+									className={classes.profile}
+								/>
+							</ImgContainer>
+						) : (
+							<img src={magnifier} alt="" className={classes.arrow} />
+						)}
 					</Button>
 				</ButtonContainer>
 				<Drawer
