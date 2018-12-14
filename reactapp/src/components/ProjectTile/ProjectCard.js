@@ -123,15 +123,25 @@ class ProjectCard extends React.Component {
 							</Link>
 						}
 					/>
-
-					<CardContent style={{ padding: '0 14px 7px 0', alignSelf: 'center' }}>
-						<StarRatings
-							rating={Math.round(this.props.project.project_rating)}
-							starDimension="19px"
-							starSpacing="1px"
-							starRatedColor="#cc0000"
-							starEmptyColor="#bfbfbf"
-						/>
+					<CardContent
+						style={{
+							marginRight: '14px',
+							alignSelf: 'center',
+							padding: '0 0 7px 0'
+						}}
+					>
+						<Link
+							to={`/project/${this.props.project.project_id}/reviews`}
+							style={{ padding: '0 0 7px 0', background: 'none' }}
+						>
+							<StarRatings
+								rating={Math.round(this.props.project.project_rating)}
+								starDimension="19px"
+								starSpacing="1px"
+								starRatedColor="#cc0000"
+								starEmptyColor="#bfbfbf"
+							/>
+						</Link>
 					</CardContent>
 				</div>
 
