@@ -179,7 +179,7 @@ class LandingPage extends Component {
 
 					<NewProjectLink to={`/newproject`}>
 						<img src={plusIcon} style={{ width: '30px', height: '30px' }} />
-						<p style={{ margin: '1px 0 0 6px' }}>Share a new project</p>
+						<p style={{ margin: '1px 0 0 6px' }}>Submit a new project</p>
 					</NewProjectLink>
 
 					<HeroSearchContainer>
