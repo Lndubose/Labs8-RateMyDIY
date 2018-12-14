@@ -94,11 +94,11 @@ const NavWrapper = styled.div`
 	max-width: 20%;
 	min-width: 10%;
 
-	@media (max-width: 800px) {
+	/* @media (max-width: 800px) {
 		display: flex;
 		justify-content: center;
 		margin: 0 auto;
-	}
+	} */
 `;
 const AuthWrapper = styled.div`
 	display: flex;
@@ -124,7 +124,7 @@ const LoginContainer = styled.div`
 `;
 
 const WelcomeMessage = styled.p`
-	font-size: 14px;
+	font-size: 1.6rem;
 	white-space: nowrap;
 	color: white;
 

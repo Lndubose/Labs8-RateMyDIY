@@ -114,14 +114,14 @@ class DropDown extends React.Component {
 									placement === 'bottom' ? 'right top' : 'center bottom'
 							}}
 						>
-							<Paper style={{ marginRight: '42px' }}>
+							<Paper style={{ marginRight: '55px' }}>
 								<ClickAwayListener onClickAway={this.handleClose}>
 									<MenuList>
 										<MenuLink to={`/ProjectList`}>
 											<MenuItem
 												onClick={this.handleClose}
 												style={{
-													fontSize: '1.4rem',
+													fontSize: '1.6rem',
 													color: 'inherit',
 													textDecoration: 'inherit'
 												}}
@@ -133,7 +133,7 @@ class DropDown extends React.Component {
 											<MenuItem
 												onClick={this.handleClose}
 												style={{
-													fontSize: '1.4rem',
+													fontSize: '1.6rem',
 													color: 'inherit',
 													textDecoration: 'inherit'
 												}}
@@ -145,7 +145,7 @@ class DropDown extends React.Component {
 											<MenuItem
 												onClick={this.handleClose}
 												style={{
-													fontSize: '1.4rem',
+													fontSize: '1.6rem',
 													color: 'inherit',
 													textDecoration: 'inherit'
 												}}
@@ -157,7 +157,7 @@ class DropDown extends React.Component {
 											<MenuItem
 												onClick={this.handleClose}
 												style={{
-													fontSize: '1.4rem',
+													fontSize: '1.6rem',
 													color: 'inherit',
 													textDecoration: 'inherit'
 												}}
