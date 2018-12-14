@@ -277,7 +277,7 @@ class NewProject extends Component {
           url => this.setState({ redirect: url })
         );
       }.bind(this),
-      1000
+      2000
     );
   };
 

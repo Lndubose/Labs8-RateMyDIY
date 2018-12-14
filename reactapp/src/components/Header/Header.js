@@ -45,6 +45,7 @@ class Header extends React.Component {
 			this.setState({ searchTerm: this.props.searchTerm });
 		}
 	}
+
 	handleChange = e => {
 		this.setState({
 			...this.state,
@@ -52,7 +53,7 @@ class Header extends React.Component {
 			searchTerm: e.target.value
 		});
 	};
-
+	
 	handleSearch = e => {
 		e.preventDefault();
 		const searchTerm = this.state.input;
