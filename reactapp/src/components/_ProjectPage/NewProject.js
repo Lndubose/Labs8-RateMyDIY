@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import Select from 'react-select';
 import axios from 'axios';
 
 // Components
@@ -14,13 +15,14 @@ import { addProject } from '../../actions';
 import styled from 'styled-components';
 
 const NewProjectContainer = styled.div`
-	width: 700px;
-	padding: 25px 30px 15px 30px;
+	width: 640px;
+	padding: 25px 30px 25px 30px;
 	margin: 0 auto;
-	margin-top: 80px;
+	margin-top: 110px;
 	display: flex;
 	flex-direction: column;
 	background: #e9ded8;
+	border-radius: 4px;
 	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
 `;
 
@@ -46,7 +48,8 @@ const ImgWrapper = styled.div`
 const Img = styled.img`
 	align-self: center;
 	height: 100%;
-	/* width: 100%; */
+	width: 100%;
+	object-fit: contain;
 	background: #c8c8c8;
 `;
 
@@ -69,7 +72,7 @@ const ProjectImageFile = styled.div`
 	font-size: 1.25em;
 	font-weight: 700;
 	color: #f1e5e6;
-	background-color: #d3394c;
+	background-color: #254f8d;
 	display: flex;
 	justify-content: space-between;
 	padding: 10px 15px 10px 15px;
@@ -78,7 +81,7 @@ const ProjectImageFile = styled.div`
 	&:hover {
 		outline: 1px dotted #000;
 		outline: -webkit-focus-ring-color auto 5px;
-		background-color: #772940;
+		background-color: #1c293b;
 	}
 `;
 
@@ -86,23 +89,27 @@ const ProjectImageUpload = styled.div`
 	font-size: 1.25em;
 	font-weight: 700;
 	color: #f1e5e6;
-	background-color: #d3394c;
+	background-color: #254f8d;
 	padding: 10px 15px 10px 15px;
 	cursor: pointer;
 	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+
 	&:hover {
 		outline: 1px dotted #000;
 		outline: -webkit-focus-ring-color auto 5px;
-		background-color: #772940;
+		background-color: #1c293b;
 	}
 `;
+
 const ProfileHeader = styled.h2`
 	width: 80%;
-	color: ${props => props.theme.mui.palette.secondary.main};
+	height: 24px;
+	color: ${props => props.theme.mui.palette.primary.dark};
 	font-size: 2.5rem;
 	margin: 2% auto;
 	text-align: center;
 `;
+
 const ImageFileUpload = styled.div`
 	width: 1em;
 	height: 1em;
@@ -113,17 +120,21 @@ const ImageFileUpload = styled.div`
 	cursor: pointer;
 `;
 
-const TextInput = styled.input`
-	padding: 5px 461px 200px 5px;
-	margin-bottom: 20px;
-	margin-top: 10px;
+const TextArea = styled.textarea`
+	width: 100%;
+	font-size: 1.6rem;
+	line-height: 2.4rem;
+	outline: none;
+	resize: none;
+	padding: 10px;
+	margin: 6px 0 20px;
 `;
 
 const CancelButton = styled.button`
 	font-size: 1.25em;
 	font-weight: 700;
 	color: #f1e5e6;
-	background-color: #d3394c;
+	background-color: #254f8d;
 	display: flex;
 	justify-content: space-between;
 	padding: 10px 15px 10px 15px;
@@ -131,7 +142,7 @@ const CancelButton = styled.button`
 	&:hover {
 		outline: 1px dotted #000;
 		outline: -webkit-focus-ring-color auto 5px;
-		background-color: #772940;
+		background-color: #1c293b;
 	}
 `;
 
@@ -139,7 +150,7 @@ const SubmitInput = styled.input`
 	font-size: 1.25em;
 	font-weight: 700;
 	color: #f1e5e6;
-	background-color: #d3394c;
+	background-color: #254f8d;
 	display: flex;
 	justify-content: space-between;
 	padding: 10px 15px 10px 15px;
@@ -147,18 +158,20 @@ const SubmitInput = styled.input`
 	&:hover {
 		outline: 1px dotted #000;
 		outline: -webkit-focus-ring-color auto 5px;
-		background-color: #772940;
+		background-color: #1c293b;
 	}
 `;
 
 const ProjectHeader = styled.div`
 	display: flex;
 	justify-content: space-between;
-	margin-top: 10px;
+	/* margin-top: 10px; */
 	margin-bottom: 20px;
 `;
 
 const ProjectNameInput = styled.input`
+	width: 70%;
+	font-size: 1.6rem;
 	padding: 8px;
 `;
 
@@ -166,6 +179,26 @@ const ProjectButtonContainer = styled.div`
 	display: flex;
 	justify-content: space-between;
 `;
+
+const selectorStyles = {
+	control: base => ({
+		...base,
+		height: '38px',
+		border: '1px solid #A9A9A9',
+		borderRadius: 'none',
+		fontSize: '1.6rem'
+	})
+};
+
+const options = [
+	{ value: 1, label: 'Home' },
+	{ value: 2, label: 'Garden' },
+	{ value: 3, label: 'Cooking' },
+	{ value: 4, label: 'Carpentry' },
+	{ value: 5, label: 'Tech' },
+	{ value: 6, label: 'Automotive' },
+	{ value: 7, label: 'Misc' }
+];
 
 class NewProject extends Component {
   state = {
@@ -279,7 +312,7 @@ class NewProject extends Component {
             project_name: this.state.project_name,
             img_url: this.state.img_url,
             text: this.state.text,
-            categories: this.state.categories
+            categories: [this.state.categories.value]
           },
           url => this.setState({ redirect: url })
         );
@@ -326,14 +359,27 @@ class NewProject extends Component {
               <ProjectNameInput
                 name="project_name"
                 type="text"
+                maxLength="48"
                 placeholder="Project title"
                 value={this.state.project_name}
                 onChange={this.changeHandler}
                 autoFocus
                 required
               />
+      		    <div style={{ width: '30%' }}>
+								{/* // Not multi select !! */}
+								<Select
+									value={this.state.categories}
+									onChange={this.handleSelect}
+									options={options}
+									placeholder="Select category"
+									style={{ fontSize: '1.6rem' }}
+									styles={selectorStyles}
+									required
+								/>
+							</div>
             </ProjectHeader>
-      	<ImgWrapper>
+            <ImgWrapper>
 							<Img
 								src={
 									imagePreviewUrl ||
@@ -345,6 +391,7 @@ class NewProject extends Component {
 								}
 							/>
 						</ImgWrapper>
+
             <ProjectImage
               type="file"
               id="myuniqueid"
@@ -372,15 +419,14 @@ class NewProject extends Component {
               <ProfileHeader>{this.state.selectedFile.name}</ProfileHeader>
             ) : null}
             Project description:
-            <TextInput
-              className="TextInput"
-              name="text"
-              type="text"
-              placeholder="Project description"
-              value={this.state.text}
-              onChange={this.changeHandler}
-              required
-            />
+            <TextArea
+							name="text"
+							rows="6"
+							maxLength="1024"
+							placeholder="Project description"
+							value={this.state.text}
+							onChange={this.changeHandler}
+						/>
             <ProjectButtonContainer>
               <CancelButton
                 onClick={this.cancelHandler}
@@ -409,6 +455,7 @@ class NewProject extends Component {
       </NewProjectBody>
     );
   }
+
 
 }
 
