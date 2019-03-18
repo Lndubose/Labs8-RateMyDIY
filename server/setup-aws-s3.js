@@ -36,6 +36,7 @@ const upload = multer({
     metadata: function (req, file, cb) {
       cb(null, { fieldName: file.fieldname });
     },
+    contentType: multerS3.AUTO_CONTENT_TYPE,
     key: function (req, file, cb) {
       // What to call file on AWS server
       cb(null, Date.now().toString())
