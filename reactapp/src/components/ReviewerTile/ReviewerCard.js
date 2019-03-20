@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 // import classnames from 'classnames';
 import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
@@ -24,15 +23,16 @@ const styles = theme => ({
 		cursor: 'pointer',
 		position: 'relative',
 
-		['@media (max-width: 1000px)']: {
-			width: '47%',
-			marginLeft: '2%'
-		},
-
-		['@media (max-width: 500px)']: {
-			width: '90%',
-			margin: '25px auto 30px'
-		}
+		// Unnecessarily computed property ['@media (max-width: 1000px)'] found
+		// ['@media (max-width: 1000px)']: {
+		// 	width: '47%',
+		// 	marginLeft: '2%'
+		// },
+		// Unnecessarily computed property ['@media (max-width: 500px)'] found
+		// ['@media (max-width: 500px)']: {
+		// 	width: '90%',
+		// 	margin: '25px auto 30px'
+		// }
 	},
 	media: {
 		height: 0,
@@ -51,6 +51,7 @@ const ReviewerInfo = styled.div`
 	justify-content: space-between;
 	align-items: flex-end;
 	width: 100%;
+	padding: 6px 0 0;
 `;
 
 class ReviewerCard extends React.Component {
@@ -103,12 +104,12 @@ class ReviewerCard extends React.Component {
 						<p
 							style={{
 								fontSize: '1.2rem',
-								color: 'white',
-								height: '26px',
-								lineHeight: '3rem'
+								lineHeight: '1.5rem',
+								color: 'white'
 							}}
 						>
-							reviews # here
+							{this.props.reviewer.review_count}{' '}
+							{this.props.reviewer.review_count === `1` ? `review` : `reviews`}
 						</p>
 					</ReviewerInfo>
 				</CardContent>

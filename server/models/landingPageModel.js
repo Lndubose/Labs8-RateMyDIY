@@ -1,3 +1,4 @@
+const knex = require('knex');
 const db = require('../config/dbConfig');
 
 module.exports = {
@@ -28,9 +29,20 @@ function getPopularProjects() {
 	);
 }
 
+// SELECT u.user_id, count(p.user_id) as projects
+// from users as u
+// left join projects as p on u.user_id=p.user_id
+// group by u.user_id
+// order by 1
+
 function getPopularMakers() {
+	const userFields = 'u.user_id, u.username, u.img_url, u.user_rating';
+
 	return (
-		db('users')
+		db('users as u')
+			.leftJoin('projects as p', 'u.user_id', 'p.user_id')
+			.select(knex.raw(`${userFields}, count(p.user_id) as project_count`))
+			.groupByRaw(userFields)
 			// For Azure
 			// .orderBy('user_rating', 'desc')
 			// For Heroku
@@ -40,8 +52,13 @@ function getPopularMakers() {
 }
 
 function getPopularReviewers() {
+	const userFields = 'u.user_id, u.username, u.img_url, u.helpfulness';
+
 	return (
-		db('users')
+		db('users as u')
+			.leftJoin('reviews as r', 'u.user_id', 'r.user_id')
+			.select(knex.raw(`${userFields}, count(r.user_id) as review_count`))
+			.groupByRaw(userFields)
 			// For Azure
 			// .orderBy('helpfulness', 'desc')
 			// For Heroku

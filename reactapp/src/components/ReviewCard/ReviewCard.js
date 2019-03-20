@@ -30,9 +30,10 @@ const styles = theme => ({
 		backgroundColor: theme.palette.secondary.light,
 		// borderRadius: '35px',
 		color: theme.palette.secondary.main,
-		['@media (max-width: 500px)']: {
-			margin: '25px auto 30px'
-		}
+		// Unnecessarily computed property ['@media (max-width: 500px)'] found
+		// ['@media (max-width: 500px)']: {
+		// 	margin: '25px auto 30px'
+		// }
 	},
 	media: {
 		height: 0,

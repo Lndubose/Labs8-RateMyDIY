@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { fetchMyReviews, fetchSearchResults, loggedIn, getFeaturedProjects } from '../../../actions';
 import { AccountSideBar } from '../../../components';
 import { Header } from '../../../components';

@@ -2,7 +2,6 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import "./AccountSideBar.css";
-import MenuDrawer from '../MenuDrawer/MenuDrawer';
 
 
 class AccountSideBar extends Component {

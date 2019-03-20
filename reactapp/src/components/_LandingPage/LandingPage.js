@@ -174,7 +174,7 @@ class LandingPage extends Component {
 					{window.innerWidth <= 500 ? <MenuDrawer /> : <Nav />}
 
 					<NewProjectLink to={`/newproject`}>
-						<img src={plusIcon} style={{ width: '30px', height: '30px' }} />
+						<img src={plusIcon} style={{ width: '30px', height: '30px' }} alt="Button to add new project" />
 						<p style={{ margin: '1px 0 0 8px' }}>Submit a new project</p>
 					</NewProjectLink>
 

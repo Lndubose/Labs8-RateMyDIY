@@ -27,18 +27,20 @@ const styles = theme => ({
 		backgroundColor: theme.palette.secondary.light,
 		// borderRadius: '35px',
 		color: theme.palette.secondary.main,
-
-		['@media (max-width: 1000px)']: {
-			width: '47%',
-			// margin: '25px 25px 25px 0px'
-			marginLeft: '2%'
-		},
-
-		['@media (max-width: 500px)']: {
-			width: '90%',
-			// margin: '25px 25px 25px 0px'
-			margin: '25px auto 30px'
-		}
+    
+		// Unnecessarily computed property ['@media (max-width: 1000px)'] found
+		// ['@media (max-width: 1000px)']: {
+		// 	width: '47%',
+		// 	// margin: '25px 25px 25px 0px'
+		// 	marginLeft: '2%'
+		// },
+		
+		// Unnecessarily computed property ['@media (max-width: 500px)'] found
+		// ['@media (max-width: 500px)']: {
+		// 	width: '90%',
+		// 	// margin: '25px 25px 25px 0px'
+		// 	margin: '25px auto 30px'
+		// }
 
 		// [theme.breakpoints.down('1000px')]: {
 		// 	width: '44%',

@@ -33,7 +33,6 @@ const Project = props => {
 					{props.project.project_rating && (
 						<ProjectRatingTool
 							rating={Number(props.project.project_rating)}
-							starRatedColor="black"
 							starEmptyColor="#bfbfbf"
 							starRatedColor="#cc0000"
 							starDimension="24px"

@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 // import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { AccountSideBar, Nav } from '../../../components';
+import { AccountSideBar } from '../../../components';
 import { Header } from '../../../components';
 import { ProjectTile } from '../../../components';
 import styled from 'styled-components';
