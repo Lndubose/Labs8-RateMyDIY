@@ -72,9 +72,9 @@ router.get('/:project_id/reviews/:user_id', function(req, res, next) {
 
 // add project
 router.post('/', ensureLoggedIn, authorize, function(req, res, next) {
-	const { user_id, project_name, img_url, text, categories } = req.body;
+	const { user_id, project_name, img_url, img_thumbnail, text, categories } = req.body;
 
-	if (!project_name || !img_url || !text) {
+	if (!project_name || !img_url || !img_thumbnail || !text) {
 		return res.status(422).json({ error: 'Missing parameters.' });
 	} else {
 		const project = { user_id, project_name, img_url, text, categories };
