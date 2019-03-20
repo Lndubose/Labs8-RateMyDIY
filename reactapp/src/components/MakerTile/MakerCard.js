@@ -83,19 +83,6 @@ const MakerInfo2 = styled.div`
 	padding: 8px 0 0;
 `;
 
-const SubInfo1 = styled.div`
-	width: 50%;
-	font-size: 1.2rem;
-	padding-left: 2px;
-`;
-
-const SubInfo2 = styled.div`
-	width: 50%;
-	font-size: 1.2rem;
-	text-align: right;
-	padding-right: 3px;
-`;
-
 class MakerCard extends React.Component {
 	state = { expanded: false };
 
