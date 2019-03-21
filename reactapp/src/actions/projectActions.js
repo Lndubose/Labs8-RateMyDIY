@@ -19,6 +19,10 @@ export const UPDATE_PROJECT_ERROR = 'UPDATE_PROJECT_ERROR';
 export const DELETING_PROJECT = 'DELETING_PROJECT';
 export const DELETED_PROJECT = 'DELETED_PROJECT';
 export const DELETE_PROJECT_ERROR = 'DELETE_PROJECT_ERROR';
+// addProjectImage
+export const ADDING_PROJECT_IMAGE = 'ADDING_PROJECT_IMAGE';
+export const ADDED_PROJECT_IMAGE = 'ADDED_PROJECT_IMAGE';
+export const ADD_PROJECT_IMAGE_ERROR = 'ADD_PROJECT_IMAGE_ERROR';
 // updateProjectImage
 export const UPDATING_PROJECT_IMAGE = 'UPDATING_PROJECT_IMAGE';
 export const UPDATED_PROJECT_IMAGE = 'UPDATED_PROJECT_IMAGE';
@@ -158,6 +162,47 @@ export const deleteProject = (project_id, user_id, callback) => {
 			})
 
 			.catch(error => dispatch({ type: DELETE_PROJECT_ERROR, payload: error }));
+	};
+};
+
+// add project image
+export const addProjectImage = (selectedFile, headerData, callback) => {
+	return dispatch => {
+		dispatch({ type: ADDING_PROJECT_IMAGE });
+
+		axios
+			.post(
+				(process.env.REACT_APP_BACKEND || `http://localhost:5000`) +
+					`/api/projects/image-upload`,
+				selectedFile,
+				headerData
+			)
+
+			.then(response => {
+				// If file size is larger than expected.
+				if (response.data.error) {
+					let error = 'Unhelpful generic error';
+
+					if ('LIMIT_FILE_SIZE' === response.data.error.code) {
+						error = 'File exceeded size limit of 2MB';
+					} else {
+						console.log(response.data.location);
+						error = 'Something went wrong.';
+					}
+
+					dispatch({ type: ADD_PROJECT_IMAGE_ERROR, payload: error });
+				} else {
+					const img_url = response.data.location;
+					console.log(`projectActions img_url:`, img_url);
+
+					dispatch({ type: ADDED_PROJECT_IMAGE });
+					callback(img_url);
+				}
+			})
+
+			.catch(error =>
+				dispatch({ type: ADD_PROJECT_IMAGE_ERROR, payload: error })
+			);
 	};
 };
 
