@@ -195,7 +195,7 @@ class NewProject extends Component {
     });
     let reader = new FileReader();
     let file = event.target.files[0];
-
+    
     reader.onloadend = () => {
       this.setState({
         file: file,
@@ -221,22 +221,12 @@ class NewProject extends Component {
       this.setState({
         uploadingProjectImage: true
       });
+
       axios
         .post(
           (process.env.REACT_APP_BACKEND || 'http://localhost:5000') +
             `/api/projects/image-upload`,
           data,
-          {
-            onUploadProgress: progressEvent => {
-              console.log(
-                'Upload Progress:' +
-                  Math.round(
-                    (progressEvent.loaded / progressEvent.total) * 100
-                  ) +
-                  '%'
-              );
-            }
-          },
           {
             headers: {
               accept: 'application/json',
@@ -299,7 +289,8 @@ class NewProject extends Component {
 			{
 				user_id: this.props.userInfo.user_id,
 				project_name: this.state.project_name,
-				img_url: this.state.projectImage,
+        img_url: this.state.projectImage,
+        img_thumbnail: this.state.projectImageThumbnail,
 				text: this.state.text,
 				categories: [this.state.categories.value]
 			},
