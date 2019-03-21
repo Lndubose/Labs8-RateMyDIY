@@ -3,13 +3,13 @@ const router = express.Router();
 const ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn(
 	'/signin'
 );
+const upload = require('../setup-aws-s3');
 
 const authorize = require('../config/authMiddleware');
 
 const db = require('../models/projectModel');
 
 // setup-aws-s3.js config for aws-sdk and multer
-const upload = require('../setup-aws-s3');
 
 const singleUpload = upload.single('image');
 
@@ -72,9 +72,10 @@ router.get('/:project_id/reviews/:user_id', function(req, res, next) {
 
 // add project
 router.post('/', ensureLoggedIn, authorize, function(req, res, next) {
-	const { user_id, project_name, img_url, img_thumbnail, text, categories } = req.body;
-
-	if (!project_name || !img_url || !img_thumbnail || !text) {
+	// need to add img_thumbnail
+	const { user_id, project_name, img_url, text, categories } = req.body;
+	// need to add || !img_thumbnail ||
+	if (!project_name || !img_url || !text) {
 		return res.status(422).json({ error: 'Missing parameters.' });
 	} else {
 		const project = { user_id, project_name, img_url, text, categories };
