@@ -353,21 +353,24 @@ const StatusMessage = styled.p``;
 const ButtonContainer = styled.div`
 	display: flex;
 	justify-content: space-around;
-	margin-top: 20px;
+	margin: 20px 0 0;
 `;
 
 const ProjectButton = styled.button`
+	width: 200px;
+	font-size: 1.25em;
+	font-weight: 700;
+	color: #f1e5e6;
+	background-color: #254f8d;
 	display: flex;
-	max-height: 100px;
-	max-width: 100px;
-	height: 100px;
-	width: 100px;
-	border-radius: 50%;
-	align-items: center;
 	justify-content: center;
-	border: 3px lightgray solid;
-	:hover {
-		background: purple;
+	align-items: center;
+	padding: 10px 15px 10px 15px;
+	cursor: pointer;
+	&:hover {
+		outline: 1px dotted #000;
+		outline: -webkit-focus-ring-color auto 5px;
+		background-color: #1c293b;
 	}
 `;
 

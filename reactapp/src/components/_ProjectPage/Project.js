@@ -10,24 +10,10 @@ const Project = props => {
 	return (
 		<ProjectContainer>
 			<ProjectHeader>
-				<ProjectNameAuthorCategoryContainer>
+				<ProjectNameAuthorContainer>
 					<ProjectName>{props.project.project_name}</ProjectName>
 					<ProjectAuthor>by {props.project.username}</ProjectAuthor>
-					<CategoryContainer>
-						{/* Any categories? */}
-						{props.project.categories &&
-							// Display categories
-							props.project.categories.map(({ category_id, category_name }) => (
-								// Needs category search!
-								<Category
-									to={`/make/search/queries/for/categories/please/${category_id}`}
-									key={category_id}
-								>
-									{category_name}
-								</Category>
-							))}
-					</CategoryContainer>
-				</ProjectNameAuthorCategoryContainer>
+				</ProjectNameAuthorContainer>
 
 				<ReviewsLink to={`/project/${props.project.project_id}/reviews`}>
 					{props.project.project_rating && (
@@ -43,6 +29,21 @@ const Project = props => {
 					<ReviewsLinkText>View Reviews</ReviewsLinkText>
 				</ReviewsLink>
 			</ProjectHeader>
+
+			<CategoryContainer>
+				{/* Any categories? */}
+				{props.project.categories &&
+					// Display categories
+					props.project.categories.map(({ category_id, category_name }) => (
+						// Needs category search!
+						<Category
+							to={`/make/search/queries/for/categories/please/${category_id}`}
+							key={category_id}
+						>
+							{category_name}
+						</Category>
+					))}
+			</CategoryContainer>
 
 			<Img
 				// small={props.project.img_url}
@@ -97,7 +98,7 @@ const ProjectHeader = styled.div`
 	align-items: center;
 `;
 
-const ProjectNameAuthorCategoryContainer = styled.div`
+const ProjectNameAuthorContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 `;
@@ -118,7 +119,7 @@ const ReviewsLink = styled(Link)`
 	margin: -10px 0 0 0;
 	display: flex;
 	flex-direction: column;
-	/* align-self: flex-end; */
+	align-self: flex-end;
 	align-items: flex-end;
 	min-width: 160px;
 	&:hover {
@@ -132,21 +133,21 @@ const ReviewsLinkText = styled.p`
 `;
 
 const CategoryContainer = styled.div`
-	font-size: 1.6rem;
-	margin: 12px 0 0;
 	display: flex;
 `;
 
 const Category = styled(Link)`
+	text-align: center;
 	min-width: 54px;
 	margin: 0 4px 0 0;
-	text-align: center;
 	letter-spacing: 0.05rem;
 	color: white;
 	background: #254f8d;
-	padding: 4px 5px 2px;
+	padding: 4px 5px;
 	border-radius: 4px;
-	font-size: 12px;
+	font-size: 14px;
+	margin: 12px 0 -6px;
+
 	&:hover {
 		text-decoration: none;
 		color: white;
@@ -158,7 +159,7 @@ const Img = styled.img`
 	background: #f6f6f6;
 	max-height: 600px;
 	width: 100%;
-	margin: 20px 0 18px;
+	margin: 22px 0 18px;
 	object-fit: contain;
 `;
 
