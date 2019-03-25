@@ -37,7 +37,6 @@ export { default as Post } from './_ProjectPage/Post/Post';
 export { default as NewPost } from './_ProjectPage/Post/NewPost';
 export { default as EditPost } from './_ProjectPage/Post/EditPost';
 export { default as ConfirmModal } from './_ProjectPage/ConfirmModal';
-export { default as StarCount } from './StarCount/StarCount';
 export { default as ReviewModal } from './ReviewModal/ReviewModal';
 export { default as NewReview } from './ReviewModal/NewReview';
 export { default as EditReview } from './ReviewModal/EditReview';
