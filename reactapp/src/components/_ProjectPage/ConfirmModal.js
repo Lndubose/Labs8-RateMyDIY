@@ -26,8 +26,10 @@ const ModalBox = styled.div`
 	height: 180px;
 	background: white;
 	padding: 43px 62px;
-	border: 2px solid #9a9a9a;
+	border: 1px solid #9a9a9a;
+	border-radius: 4px;
 	transform: translate(-50%, -50%);
+	z-index: 20;
 `;
 
 const StatusMessage = styled.p``;
@@ -74,7 +76,8 @@ const SubmitButton = styled.button`
 
 const ConfirmModal = props => {
 	return (
-		<ModalShade>
+		<React.Fragment>
+			<ModalShade onClick={props.confirm ? props.confirm.cancel : null} />
 			<ModalBox>
 				{props.statusMessage ? (
 					<StatusMessage>{props.statusMessage}</StatusMessage>
@@ -92,7 +95,7 @@ const ConfirmModal = props => {
 					</React.Fragment>
 				)}
 			</ModalBox>
-		</ModalShade>
+		</React.Fragment>
 	);
 };
 
