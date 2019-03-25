@@ -28,7 +28,7 @@ const styles = theme => ({
 		color: theme.palette.secondary.main,
 		// border: '1px solid lightgray',
 		cursor: 'pointer',
-		position: 'relative',
+		position: 'relative'
 		// Unnecessarily computed property ['@media (max-width: 1000px)'] found
 		// ['@media (max-width: 1000px)']: {
 		// 	width: '47%',
@@ -81,19 +81,6 @@ const MakerInfo2 = styled.div`
 	display: flex;
 	width: 100%;
 	padding: 8px 0 0;
-`;
-
-const SubInfo1 = styled.div`
-	width: 50%;
-	font-size: 1.2rem;
-	padding-left: 2px;
-`;
-
-const SubInfo2 = styled.div`
-	width: 50%;
-	font-size: 1.2rem;
-	text-align: right;
-	padding-right: 3px;
 `;
 
 class MakerCard extends React.Component {
